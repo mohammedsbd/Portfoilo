@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, animate, motion, useMotionValue, useMotionValueEvent } from 'framer-motion';
 
 /**
@@ -75,10 +75,14 @@ function whenReady(): Promise<void> {
 
 export default function Preloader() {
   const [phase, setPhase] = useState<Phase>('strike');
-  const [pct, setPct] = useState(0);
+  const pctRef = useRef<HTMLSpanElement>(null);
 
   const fill = useMotionValue(0);
-  useMotionValueEvent(fill, 'change', (v) => setPct(Math.round(v * 100)));
+  useMotionValueEvent(fill, 'change', (v) => {
+    if (pctRef.current) {
+      pctRef.current.textContent = String(Math.round(v * 100)).padStart(2, '0');
+    }
+  });
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -234,7 +238,7 @@ export default function Preloader() {
               <span className="pre__rule">
                 <motion.i style={{ scaleX: fill }} />
               </span>
-              <span className="pre__pct">{String(pct).padStart(2, '0')}</span>
+              <span className="pre__pct" ref={pctRef}>00</span>
             </motion.div>
           </motion.div>
         </motion.div>

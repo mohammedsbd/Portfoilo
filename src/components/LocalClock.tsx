@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 /**
  * Live clock in Addis Ababa (UTC+3). Renders empty on the server so the
@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
  */
 export default function LocalClock({ withSeconds = true }: { withSeconds?: boolean }) {
   const [time, setTime] = useState('');
+  const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const fmt = new Intl.DateTimeFormat('en-GB', {
@@ -21,12 +22,36 @@ export default function LocalClock({ withSeconds = true }: { withSeconds?: boole
     const tick = () => setTime(fmt.format(new Date()));
     tick();
 
-    const id = window.setInterval(tick, 1000);
-    return () => window.clearInterval(id);
+    let id: number | undefined;
+    const start = () => {
+      if (!id) id = window.setInterval(tick, 1000);
+    };
+    const stop = () => {
+      if (id) {
+        window.clearInterval(id);
+        id = undefined;
+      }
+    };
+
+    if (!ref.current) {
+      start();
+      return stop;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) start();
+      else stop();
+    });
+    observer.observe(ref.current);
+
+    return () => {
+      observer.disconnect();
+      stop();
+    };
   }, [withSeconds]);
 
   return (
-    <span suppressHydrationWarning>
+    <span ref={ref} suppressHydrationWarning>
       {time || '--:--'} <span style={{ opacity: 0.5 }}>EAT</span>
     </span>
   );

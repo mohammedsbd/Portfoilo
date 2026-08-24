@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.15)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+  <!-- Rounded square background -->
+  <rect width="512" height="512" rx="108" ry="108" fill="url(#bg)"/>
+  <!-- Subtle shine overlay -->
+  <rect width="512" height="512" rx="108" ry="108" fill="url(#shine)"/>
+  <!-- "M" letterform — bold, geometric, modern -->
+  <path d="
+    M 120 400
+    L 120 148
+    L 170 112
+    L 256 240
+    L 342 112
+    L 392 148
+    L 392 400
+    L 336 400
+    L 336 228
+    L 256 340
+    L 176 228
+    L 176 400
+    Z
+  " fill="#ffffff"/>
+  <!-- Code bracket accents: left < -->
+  <path d="M 82 256 L 56 280 L 82 304" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Code bracket accents: right > -->
+  <path d="M 430 256 L 456 280 L 430 304" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

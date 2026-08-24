@@ -20,9 +20,11 @@ export default function Showreel() {
 
   const [armed, setArmed] = useState(false); // src attached
   const [playing, setPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [ready, setReady] = useState(false);
+
+  const progressBarRef = useRef<HTMLSpanElement>(null);
+  const timeRef = useRef<HTMLSpanElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: wrapRef,
@@ -135,7 +137,11 @@ export default function Showreel() {
             onPause={() => setPlaying(false)}
             onTimeUpdate={(e) => {
               const v = e.currentTarget;
-              if (v.duration) setProgress(v.currentTime / v.duration);
+              if (v.duration) {
+                const p = v.currentTime / v.duration;
+                if (progressBarRef.current) progressBarRef.current.style.transform = `scaleX(${p})`;
+                if (timeRef.current) timeRef.current.textContent = fmt(v.currentTime);
+              }
             }}
           />
         </div>
@@ -168,7 +174,7 @@ export default function Showreel() {
 
           <div className="reel__controls">
             <span className="reel__time">
-              {fmt(progress * duration)} / {fmt(duration)}
+              <span ref={timeRef}>00:00</span> / {fmt(duration)}
             </span>
             <button
               className="reel__btn"
@@ -193,7 +199,7 @@ export default function Showreel() {
         </div>
 
         <div className="reel__progress">
-          <span style={{ transform: `scaleX(${progress})` }} />
+          <span ref={progressBarRef} style={{ transform: 'scaleX(0)' }} />
         </div>
       </div>
     </motion.div>

@@ -18,6 +18,7 @@ export default function Backdrop() {
     stiffness: 40,
     damping: 22,
     mass: 0.7,
+    restDelta: 0.01,
   });
 
   return (

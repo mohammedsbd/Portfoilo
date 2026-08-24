@@ -3,6 +3,7 @@ import { HERO_VIDEO } from '@/data/media';
 import LocalClock from './LocalClock';
 import Magnetic from './Magnetic';
 import FooterGlow from './FooterGlow';
+import LazyFooterVideo from './LazyFooterVideo';
 
 /** The wordmark, one letter per span so each can be hovered on its own. */
 const words = profile.name.toUpperCase().split(' ');
@@ -16,7 +17,7 @@ export default function Footer() {
           Plain element on purpose: no state, so the footer stays a server
           component, and the file is already in cache from the landing frame. */}
       <div className="footer__reel" aria-hidden="true">
-        <video src={HERO_VIDEO} autoPlay loop muted playsInline preload="metadata" />
+        <LazyFooterVideo src={HERO_VIDEO} />
       </div>
 
       <FooterGlow />

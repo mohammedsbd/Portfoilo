@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { WordsPullUpMultiStyle } from './PullUp';
 import BlueprintPlotter from './BlueprintPlotter';
@@ -9,6 +9,43 @@ const COVER_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260406_133058_0504132a-0cf3-4450-a370-8ea3b05c95d4.mp4';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+function LazyVideo({ src, className }: { src: string; className?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const video = videoRef.current;
+    if (!container || !video) return;
+
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+
+    io.observe(container);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className={className} style={{ width: '100%', height: '100%' }}>
+      <video
+        ref={videoRef}
+        src={src}
+        loop
+        muted
+        playsInline
+        preload="none"
+        aria-hidden="true"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+    </div>
+  );
+}
 
 export default function Features() {
   const reduce = !!useReducedMotion();
@@ -61,7 +98,7 @@ function Cover({ reduce }: { reduce: boolean }) {
       <Frame draw={reduce ? 1 : draw} />
       <Marks scale={reduce ? 1 : marks} />
 
-      <video src={COVER_VIDEO} autoPlay loop muted playsInline aria-hidden="true" />
+      <LazyVideo src={COVER_VIDEO} />
 
       <div className="bp__coverPlate">
         <span className="bp__coverLabel">Cover</span>

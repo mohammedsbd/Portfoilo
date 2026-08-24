@@ -36,11 +36,39 @@ export default function IntroField() {
   // Held still for anyone who asked for less motion: the first line stays up.
   useEffect(() => {
     if (reduce) return;
-    const id = window.setInterval(
-      () => setPhrase((i) => (i + 1) % PHRASES.length),
-      PHRASE_MS,
-    );
-    return () => window.clearInterval(id);
+
+    let id: number | undefined;
+    const start = () => {
+      if (!id) {
+        id = window.setInterval(
+          () => setPhrase((i) => (i + 1) % PHRASES.length),
+          PHRASE_MS,
+        );
+      }
+    };
+    const stop = () => {
+      if (id) {
+        window.clearInterval(id);
+        id = undefined;
+      }
+    };
+
+    const host = ref.current?.parentElement;
+    if (!host) {
+      start();
+      return stop;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) start();
+      else stop();
+    });
+    observer.observe(host);
+
+    return () => {
+      observer.disconnect();
+      stop();
+    };
   }, [reduce]);
 
   useEffect(() => {
@@ -52,6 +80,12 @@ export default function IntroField() {
     let ty = 0;
     let cx = 0;
     let cy = 0;
+    let rect = { left: 0, top: 0, width: 0, height: 0 };
+
+    const updateRect = () => {
+      rect = host.getBoundingClientRect();
+    };
+    updateRect(); // initial
 
     const follow = () => {
       cx += (tx - cx) * 0.075;
@@ -65,9 +99,8 @@ export default function IntroField() {
     };
 
     const onMove = (e: PointerEvent) => {
-      const r = host.getBoundingClientRect();
-      tx = e.clientX - (r.left + r.width / 2);
-      ty = e.clientY - (r.top + r.height / 2);
+      tx = e.clientX - (rect.left + rect.width / 2);
+      ty = e.clientY - (rect.top + rect.height / 2);
       if (!raf) raf = requestAnimationFrame(follow);
     };
 
@@ -77,10 +110,14 @@ export default function IntroField() {
       if (!raf) raf = requestAnimationFrame(follow);
     };
 
+    host.addEventListener('pointerenter', updateRect, { passive: true });
+    window.addEventListener('resize', updateRect, { passive: true });
     host.addEventListener('pointermove', onMove, { passive: true });
     host.addEventListener('pointerleave', onLeave, { passive: true });
 
     return () => {
+      host.removeEventListener('pointerenter', updateRect);
+      window.removeEventListener('resize', updateRect);
       host.removeEventListener('pointermove', onMove);
       host.removeEventListener('pointerleave', onLeave);
       if (raf) cancelAnimationFrame(raf);

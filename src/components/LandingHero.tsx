@@ -41,6 +41,8 @@ function useParticles(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
   const mouseRef = useRef({ x: -1000, y: -1000 });
   const particlesRef = useRef<Particle[]>([]);
   const rafRef = useRef<number>(0);
+  const dims = useRef({ w: 0, h: 0 });
+  const visible = useRef(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -48,12 +50,21 @@ function useParticles(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible.current = entry.isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+
     const resize = () => {
       const dpr = window.devicePixelRatio || 1;
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       ctx.scale(dpr, dpr);
+      dims.current = { w: rect.width, h: rect.height };
     };
     resize();
 
@@ -84,8 +95,11 @@ function useParticles(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
 
     let time = 0;
     const loop = () => {
+      rafRef.current = requestAnimationFrame(loop);
+      if (!visible.current) return;
+
       time++;
-      const { width, height } = canvas.getBoundingClientRect();
+      const { w: width, h: height } = dims.current;
       ctx.clearRect(0, 0, width, height);
 
       /* Always dark theme particle color */
@@ -164,13 +178,12 @@ function useParticles(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
           }
         }
       }
-
-      rafRef.current = requestAnimationFrame(loop);
     };
 
     rafRef.current = requestAnimationFrame(loop);
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(rafRef.current);
       canvas.removeEventListener('mousemove', onMove);
       canvas.removeEventListener('mouseleave', onLeave);
@@ -191,7 +204,7 @@ function GlitchText({
   className?: string;
   delay?: number;
 }) {
-  const [display, setDisplay] = useState('');
+  const spanRef = useRef<HTMLSpanElement>(null);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -217,9 +230,15 @@ function GlitchText({
             return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
           })
           .join('');
-        setDisplay(out);
+        
+        if (spanRef.current) {
+          spanRef.current.textContent = out;
+        }
+        
         if (done === queue.filter((q) => q.char !== ' ').length) {
-          setDisplay(text);
+          if (spanRef.current) {
+            spanRef.current.textContent = text;
+          }
           return;
         }
         frame++;
@@ -234,7 +253,7 @@ function GlitchText({
     };
   }, [text, delay]);
 
-  return <span className={className}>{display || '\u00A0'}</span>;
+  return <span ref={spanRef} className={className}>{'\u00A0'}</span>;
 }
 
 /* ─── Rotating Role Text ─── */
@@ -288,14 +307,48 @@ export default function LandingHero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useParticles(canvasRef);
 
-  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
+  const mousePosRef = useRef({ x: 0.5, y: 0.5 });
+  const orbRef = useRef<HTMLDivElement>(null);
+  const sectionRectRef = useRef<{ left: number, top: number, width: number, height: number } | null>(null);
+
+  useEffect(() => {
+    const updateRect = () => {
+      const section = document.getElementById('top');
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        sectionRectRef.current = {
+          left: rect.left,
+          top: rect.top,
+          width: rect.width,
+          height: rect.height
+        };
+      }
+    };
+    updateRect();
+    window.addEventListener('resize', updateRect);
+    return () => window.removeEventListener('resize', updateRect);
+  }, []);
 
   const onMouseMove = useCallback((e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({
-      x: (e.clientX - rect.left) / rect.width,
-      y: (e.clientY - rect.top) / rect.height,
-    });
+    let rect = sectionRectRef.current;
+    if (!rect) {
+      const section = document.getElementById('top');
+      if (section) {
+        const r = section.getBoundingClientRect();
+        rect = { left: r.left, top: r.top, width: r.width, height: r.height };
+        sectionRectRef.current = rect;
+      }
+    }
+    
+    if (rect) {
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      mousePosRef.current = { x, y };
+      
+      if (orbRef.current) {
+        orbRef.current.style.transform = `translate(${x * 30 - 15}%, ${y * 30 - 15}%)`;
+      }
+    }
   }, []);
 
   return (
@@ -306,10 +359,8 @@ export default function LandingHero() {
 
         {/* Morphing gradient orb that follows mouse */}
         <div
+          ref={orbRef}
           className="lhero__orb"
-          style={{
-            transform: `translate(${mousePos.x * 30 - 15}%, ${mousePos.y * 30 - 15}%)`,
-          }}
           aria-hidden="true"
         />
         <div className="lhero__orb lhero__orb--secondary" aria-hidden="true" />
@@ -323,7 +374,7 @@ export default function LandingHero() {
             loop
             muted
             playsInline
-            preload="auto"
+            preload="metadata"
             aria-hidden="true"
           />
         </div>

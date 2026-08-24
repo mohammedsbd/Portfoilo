@@ -19,14 +19,33 @@ export default function FooterGlow() {
     const host = ref.current?.parentElement;
     if (!host || reduce) return;
 
+    let rect = { left: 0, top: 0, width: 0, height: 0 };
+    let raf = 0;
+
+    const updateRect = () => {
+      rect = host.getBoundingClientRect();
+    };
+    updateRect(); // initial
+
     const onMove = (e: PointerEvent) => {
-      const r = host.getBoundingClientRect();
-      host.style.setProperty('--fx', `${e.clientX - (r.left + r.width / 2)}px`);
-      host.style.setProperty('--fy', `${e.clientY - (r.top + r.height / 2)}px`);
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        host.style.setProperty('--fx', `${e.clientX - (rect.left + rect.width / 2)}px`);
+        host.style.setProperty('--fy', `${e.clientY - (rect.top + rect.height / 2)}px`);
+        raf = 0;
+      });
     };
 
+    host.addEventListener('pointerenter', updateRect, { passive: true });
+    window.addEventListener('resize', updateRect, { passive: true });
     host.addEventListener('pointermove', onMove, { passive: true });
-    return () => host.removeEventListener('pointermove', onMove);
+    
+    return () => {
+      host.removeEventListener('pointerenter', updateRect);
+      window.removeEventListener('resize', updateRect);
+      host.removeEventListener('pointermove', onMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [reduce]);
 
   return <div className="footer__glow" ref={ref} aria-hidden="true" />;

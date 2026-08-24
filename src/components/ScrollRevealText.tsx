@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
+import { useScroll, useMotionValueEvent } from 'framer-motion';
 
 /**
  * Progressive text reveal: each character lifts from 0.2 to full opacity as
@@ -22,46 +22,46 @@ export default function ScrollRevealText({
   });
 
   const chars = text.split('');
+  const total = chars.length;
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    if (!ref.current) return;
+    const spans = ref.current.querySelectorAll<HTMLSpanElement>('.reveal-char');
+    
+    spans.forEach((span) => {
+      const index = parseInt(span.dataset.index || '0', 10);
+      const charProgress = index / total;
+      
+      const start = charProgress - 0.1;
+      const end = charProgress + 0.05;
+      
+      let opacity = 0.2;
+      if (latest >= end) {
+        opacity = 1;
+      } else if (latest > start) {
+        opacity = 0.2 + 0.8 * ((latest - start) / (end - start));
+      }
+      
+      span.style.opacity = opacity.toString();
+    });
+  });
 
   return (
     <p ref={ref} className={className}>
-      {chars.map((char, i) => (
-        <AnimatedLetter
-          key={i}
-          char={char}
-          index={i}
-          total={chars.length}
-          progress={scrollYProgress}
-        />
-      ))}
+      {chars.map((char, i) => {
+        if (char === ' ') return <span key={i}> </span>;
+        
+        return (
+          <span 
+            key={i} 
+            data-index={i} 
+            className="reveal-char"
+            style={{ opacity: 0.2 }}
+          >
+            {char}
+          </span>
+        );
+      })}
     </p>
-  );
-}
-
-/**
- * One character. Kept as its own component so `useTransform` is a stable hook
- * call per letter rather than a loop inside the parent.
- */
-function AnimatedLetter({
-  char,
-  index,
-  total,
-  progress,
-}: {
-  char: string;
-  index: number;
-  total: number;
-  progress: MotionValue<number>;
-}) {
-  const charProgress = index / total;
-  const opacity = useTransform(progress, [charProgress - 0.1, charProgress + 0.05], [0.2, 1]);
-
-  // Preserve spaces as real breaks so the paragraph still wraps normally.
-  if (char === ' ') return <span> </span>;
-
-  return (
-    <motion.span style={{ opacity }} className="reveal-char">
-      {char}
-    </motion.span>
   );
 }

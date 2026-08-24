@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, type ReactNode, type PointerEvent } from 'react';
+import { useRef, useEffect, type ReactNode, type PointerEvent } from 'react';
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
 
 interface Props {
@@ -14,15 +14,30 @@ interface Props {
 export default function Magnetic({ children, strength = 18, className = '' }: Props) {
   const ref = useRef<HTMLSpanElement>(null);
   const reduce = useReducedMotion();
+  const rectRef = useRef<DOMRect | null>(null);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 260, damping: 18, mass: 0.5 });
   const sy = useSpring(y, { stiffness: 260, damping: 18, mass: 0.5 });
 
+  useEffect(() => {
+    const handleResize = () => {
+      rectRef.current = null;
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const onPointerEnter = () => {
+    if (ref.current) {
+      rectRef.current = ref.current.getBoundingClientRect();
+    }
+  };
+
   const onMove = (e: PointerEvent<HTMLSpanElement>) => {
-    if (reduce || !ref.current) return;
-    const r = ref.current.getBoundingClientRect();
+    if (reduce || !rectRef.current) return;
+    const r = rectRef.current;
     const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
     const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
     x.set(Math.max(-1, Math.min(1, dx)) * strength);
@@ -39,6 +54,7 @@ export default function Magnetic({ children, strength = 18, className = '' }: Pr
       ref={ref}
       className={className}
       style={{ x: sx, y: sy, display: 'inline-block' }}
+      onPointerEnter={onPointerEnter}
       onPointerMove={onMove}
       onPointerLeave={reset}
     >

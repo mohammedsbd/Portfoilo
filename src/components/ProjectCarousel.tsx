@@ -116,7 +116,7 @@ export default function ProjectCarousel() {
 
   /* ---- Pointer parallax ---- */
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || !live) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       const rx = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
@@ -137,35 +137,38 @@ export default function ProjectCarousel() {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [reduced]);
+  }, [reduced, live]);
 
   /* ---- Card sizing, measured against the stage rather than the window ---- */
   useEffect(() => {
     const el = stageRef.current;
     if (!el) return;
 
+    let timeoutId: number;
     const measure = () => {
       const rect = el.getBoundingClientRect();
       stageH.current = rect.height || 720;
 
-      let cardW = Math.round(rect.width * 0.2 + 170);
-      const heightFactor = Math.min(1.0, Math.max(0.65, rect.height / 850));
-      cardW = Math.round(cardW * heightFactor);
-      cardW = Math.min(460, Math.max(190, cardW));
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        let cardW = Math.round(rect.width * 0.2 + 170);
+        const heightFactor = Math.min(1.0, Math.max(0.65, rect.height / 850));
+        cardW = Math.round(cardW * heightFactor);
+        cardW = Math.min(460, Math.max(190, cardW));
 
-      const cardH = Math.round(cardW / 1.5925); // standard credit-card ratio
-      setMetrics({ cardW, cardH });
+        const cardH = Math.round(cardW / 1.5925); // standard credit-card ratio
+        setMetrics({ cardW, cardH });
+      }, 100);
     };
 
     measure();
 
     const ro = new ResizeObserver(measure);
     ro.observe(el);
-    window.addEventListener('resize', measure);
 
     return () => {
       ro.disconnect();
-      window.removeEventListener('resize', measure);
+      window.clearTimeout(timeoutId);
     };
   }, []);
 
@@ -173,11 +176,11 @@ export default function ProjectCarousel() {
   useEffect(() => {
     if (!live || reduced) return;
 
-    const renderLoop = () => {
+    const renderLoop = (dt: number) => {
       // Hand control to the reader while they are dragging, and for a beat
       // afterwards so the cylinder does not snatch itself back.
       if (!drag.current.active && performance.now() > idleUntil.current) {
-        progress.current += 0.0016;
+        progress.current += dt * 0.1;
       }
 
       // Damping / inertia toward the cursor target.
@@ -293,8 +296,12 @@ export default function ProjectCarousel() {
       }
     };
 
+    let lastTime = performance.now();
     const tick = () => {
-      renderLoop();
+      const now = performance.now();
+      const dt = (now - lastTime) / 1000;
+      lastTime = now;
+      renderLoop(dt);
       frameId.current = requestAnimationFrame(tick);
     };
 
@@ -525,17 +532,6 @@ export default function ProjectCarousel() {
                         <div className="ccard__art">
                           <ProjectArt kind={p.art} palette={p.palette} seed={`carb-${p.slug}-${i}`} />
                         </div>
-                        {live && (
-                          <video
-                            src={videoSrc}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="none"
-                            className="ccard__video"
-                          />
-                        )}
                       </div>
 
                       {/* Magnetic stripe */}

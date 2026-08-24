@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { navItems, profile } from '@/data/profile';
 import ThemeToggle from './ThemeToggle';
 
@@ -10,18 +10,31 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('');
 
+  const prevStuck = useRef(false);
+  const prevPastHero = useRef(false);
+
   /* The landing hero carries its own nav pill, so this bar stays
      out of the way until the hero has scrolled by, then slides in to serve
      the remaining ~11,000px of page. */
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      setStuck(y > 40);
-      setPastHero(y > window.innerHeight * 0.82);
+      const isStuck = y > 40;
+      const isPastHero = y > window.innerHeight * 0.82;
+      
+      if (isStuck !== prevStuck.current) {
+        prevStuck.current = isStuck;
+        setStuck(isStuck);
+      }
+      
+      if (isPastHero !== prevPastHero.current) {
+        prevPastHero.current = isPastHero;
+        setPastHero(isPastHero);
+      }
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
+    window.addEventListener('resize', onScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);

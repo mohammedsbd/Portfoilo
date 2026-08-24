@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useInView } from './Reveal';
 
 const GLYPHS = '!<>-_\\/[]{}—=+*^?#01';
@@ -18,13 +18,12 @@ interface Props {
  */
 export default function Scramble({ text, className = '', onHover = true }: Props) {
   const { ref, inView } = useInView<HTMLSpanElement>(0.5);
-  const [display, setDisplay] = useState(text);
   const frame = useRef(0);
   const raf = useRef<number | null>(null);
 
   const run = () => {
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setDisplay(text);
+      if (ref.current) ref.current.textContent = text;
       return;
     }
 
@@ -52,10 +51,10 @@ export default function Scramble({ text, className = '', onHover = true }: Props
         })
         .join('');
 
-      setDisplay(out);
+      if (ref.current) ref.current.textContent = out || ' ';
 
       if (done === queue.filter((q) => q.char !== ' ').length) {
-        setDisplay(text);
+        if (ref.current) ref.current.textContent = text;
         return;
       }
 
@@ -81,7 +80,7 @@ export default function Scramble({ text, className = '', onHover = true }: Props
       onPointerEnter={onHover ? run : undefined}
       style={{ display: 'inline-block' }}
     >
-      {display || ' '}
+      {text || ' '}
     </span>
   );
 }

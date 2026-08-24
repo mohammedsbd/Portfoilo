@@ -64,6 +64,9 @@ export const metadata: Metadata = {
     description: profile.subheadline,
   },
   robots: { index: true, follow: true },
+  icons: {
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+  },
 };
 
 export const viewport: Viewport = {
@@ -99,6 +102,8 @@ const jsonLd = {
   sameAs: profile.socials.filter((s) => s.url.startsWith('http')).map((s) => s.url),
 };
 
+const jsonLdString = JSON.stringify(jsonLd);
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -106,6 +111,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${almarai.variable} ${instrument.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net" crossOrigin="anonymous" />
+      </head>
       <body>
         {/* Runs before the body paints, so the stored theme is already on
             <html> and there is no flash of the wrong one. */}
@@ -116,7 +124,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdString }}
         />
         {children}
       </body>

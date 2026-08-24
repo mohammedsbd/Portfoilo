@@ -40,7 +40,7 @@ export default function WorkField() {
   /* Springing the progress rather than reading it raw keeps the field a beat
      behind the cards, which is what makes it read as depth instead of as a
      second thing scrolling at the same speed. */
-  const p = useSpring(scrollYProgress, { stiffness: 55, damping: 22, restDelta: 0.001 });
+  const p = useSpring(scrollYProgress, { stiffness: 55, damping: 22, restDelta: 0.01 });
 
   const bloomL = useTransform(p, [0, 1], ['16%', '-18%']);
   const bloomR = useTransform(p, [0, 1], ['-16%', '20%']);

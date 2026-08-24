@@ -11,6 +11,42 @@ import WorkField from './WorkField';
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /* ─── Mockup browser frame for project preview ─── */
+function LazyVideo({ src, className }: { src: string; className?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const video = videoRef.current;
+    if (!container || !video) return;
+
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+
+    io.observe(container);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className={className} style={{ width: '100%', height: '100%' }}>
+      <video
+        ref={videoRef}
+        src={src}
+        loop
+        muted
+        playsInline
+        preload="none"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+    </div>
+  );
+}
+
 function BrowserMockup({ project, index }: { project: Project; index: number }) {
   const isEven = index % 2 === 0;
 
@@ -32,14 +68,7 @@ function BrowserMockup({ project, index }: { project: Project; index: number }) 
         {/* Screen area with video or generative art */}
         <div className="pshow__screen">
           {project.video ? (
-            <video
-              src={project.video}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="pshow__video"
-            />
+            <LazyVideo src={project.video} className="pshow__video" />
           ) : (
             <div className="pshow__artWrap">
               <ProjectArt kind={project.art} palette={project.palette} seed={`show-${project.slug}`} />
@@ -177,6 +206,7 @@ function ProjectShowcase({ project, index }: { project: Project; index: number }
 export default function Projects() {
   const gridRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
 
   /* Which project owns the middle of the screen. One observer over the four
      cards rather than a scroll handler: it fires only on the handful of
@@ -194,7 +224,10 @@ export default function Projects() {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
           const i = cards.indexOf(entry.target as HTMLElement);
-          if (i >= 0) setActive(i);
+          if (i >= 0 && i !== activeRef.current) {
+            activeRef.current = i;
+            setActive(i);
+          }
         }
       },
       { rootMargin: '-35% 0px -35% 0px', threshold: 0 },

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useInView } from './Reveal';
 
 interface Props {
@@ -13,13 +13,13 @@ interface Props {
 /** Counts up from zero the first time it scrolls into view. */
 export default function Counter({ value, suffix = '', decimals = 0, duration = 1600 }: Props) {
   const { ref, inView } = useInView<HTMLSpanElement>(0.4);
-  const [n, setN] = useState(0);
+  const numRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (!inView) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setN(value);
+      if (numRef.current) numRef.current.textContent = value.toFixed(decimals);
       return;
     }
 
@@ -30,17 +30,25 @@ export default function Counter({ value, suffix = '', decimals = 0, duration = 1
       const t = Math.min((now - start) / duration, 1);
       // easeOutExpo — fast start, gentle landing
       const eased = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-      setN(value * eased);
-      if (t < 1) raf = requestAnimationFrame(tick);
+      
+      if (numRef.current) {
+        numRef.current.textContent = (value * eased).toFixed(decimals);
+      }
+      
+      if (t < 1) {
+        raf = requestAnimationFrame(tick);
+      } else if (numRef.current) {
+        numRef.current.textContent = value.toFixed(decimals);
+      }
     };
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, value, duration]);
+  }, [inView, value, duration, decimals]);
 
   return (
     <span ref={ref}>
-      {n.toFixed(decimals)}
+      <span ref={numRef}>{(0).toFixed(decimals)}</span>
       <em>{suffix}</em>
     </span>
   );
