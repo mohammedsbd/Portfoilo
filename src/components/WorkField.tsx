@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { m, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 
 /**
  * The field behind the work.
@@ -56,24 +56,24 @@ export default function WorkField() {
 
   const lane = (side: 'l' | 'r') => (
     <div className={`wfield__lane wfield__lane--${side}`}>
-      <motion.span
+      <m.span
         className="wfield__ticks"
         style={drift({ y: side === 'l' ? ticksL : ticksR })}
       />
       <span className="wfield__rail">
-        <motion.i
+        <m.i
           className="wfield__railFill"
           style={reduce ? { scaleY: 1 } : { scaleY: railFill }}
         />
-        <motion.i className="wfield__railNode" style={drift({ y: railNode })} />
+        <m.i className="wfield__railNode" style={drift({ y: railNode })} />
       </span>
     </div>
   );
 
   return (
     <div className="wfield" ref={ref} aria-hidden="true">
-      <motion.span className="wfield__bloom wfield__bloom--l" style={drift({ y: bloomL })} />
-      <motion.span className="wfield__bloom wfield__bloom--r" style={drift({ y: bloomR })} />
+      <m.span className="wfield__bloom wfield__bloom--l" style={drift({ y: bloomL })} />
+      <m.span className="wfield__bloom wfield__bloom--r" style={drift({ y: bloomR })} />
 
       {lane('l')}
       {lane('r')}

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { profile } from '@/data/profile';
 import Counter from './Counter';
 
@@ -82,13 +82,13 @@ function Tally({ count, reduce, row }: { count: number; reduce: boolean; row: nu
   return (
     <span className="ledger__tally" aria-hidden="true">
       <svg viewBox={`0 0 ${width} 40`} style={{ width: `${width / 40}em` }}>
-        {marks.map((m, i) => (
-          <motion.line
+        {marks.map((mk, i) => (
+          <m.line
             key={i}
-            x1={m.x1}
-            y1={m.y1}
-            x2={m.x2}
-            y2={m.y2}
+            x1={mk.x1}
+            y1={mk.y1}
+            x2={mk.x2}
+            y2={mk.y2}
             initial={reduce ? false : { pathLength: 0 }}
             whileInView={{ pathLength: 1 }}
             viewport={{ once: true, amount: 0.8 }}

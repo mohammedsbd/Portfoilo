@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
+import { m, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import { useRef } from 'react';
 
 /**
@@ -43,7 +43,7 @@ export default function ContactScene() {
         </defs>
 
         {/* rising planet */}
-        <motion.g style={reduce ? undefined : { y: yPlanet }}>
+        <m.g style={reduce ? undefined : { y: yPlanet }}>
           <circle cx="1180" cy="330" r="360" fill="url(#cs-halo)" />
           <circle cx="1180" cy="330" r="168" fill="url(#cs-planet)" />
           <ellipse
@@ -57,10 +57,10 @@ export default function ContactScene() {
             opacity="0.3"
             transform="rotate(-18 1180 330)"
           />
-        </motion.g>
+        </m.g>
 
         {/* layered ridgeline with a lone figure on the crest */}
-        <motion.g style={reduce ? undefined : { y: yRidge }}>
+        <m.g style={reduce ? undefined : { y: yRidge }}>
           <path
             d="M -20 520 Q 240 452 520 498 Q 800 544 1080 486 Q 1360 428 1620 494 L 1620 640 L -20 640 Z"
             fill="url(#cs-ridge)"
@@ -75,7 +75,7 @@ export default function ContactScene() {
             <path d="M -7 512 q -2 -34 2 -46 q 5 -14 12 0 q 4 12 2 46 z" />
             <circle cx="0" cy="456" r="8" />
           </g>
-        </motion.g>
+        </m.g>
       </svg>
     </div>
   );

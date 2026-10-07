@@ -17,7 +17,10 @@ export interface Project {
   links: { label: string; url: string }[];
   palette: [string, string];
   art: ProjectArt;
+  /** A path under /public or a full https:// URL (Cloudinary, Bunny, R2…). */
   video?: string;
+  /** Still frame shown before the clip loads, and instead of it on Data Saver. */
+  poster?: string;
 }
 
 export const projects: Project[] = [
@@ -42,7 +45,8 @@ export const projects: Project[] = [
     links: [{ label: 'Visit Agentum', url: 'https://agentum-xwf6.onrender.com/' }],
     palette: ['#dedbc8', '#3a382e'],
     art: 'nodes',
-    video: '/media/agentum.webm',
+    video: '/media/agentum.mp4',
+    poster: '/posters/agentum.jpg',
   },
   {
     slug: 'biomatch',
@@ -65,7 +69,8 @@ export const projects: Project[] = [
     links: [{ label: 'Visit BioMatch', url: 'https://bio-match-tau.vercel.app/' }],
     palette: ['#c9c5ab', '#2c2f28'],
     art: 'pulse',
-    video: '/media/biomatch.webm',
+    video: '/media/biomatch.mp4',
+    poster: '/posters/biomatch.jpg',
   },
   {
     slug: 'gugut-growth-center',
@@ -88,7 +93,8 @@ export const projects: Project[] = [
     links: [{ label: 'Visit Gugut', url: 'https://gugut-growth.netlify.app/' }],
     palette: ['#e1d9bd', '#3b3327'],
     art: 'grid',
-    video: '/media/screen-capture.webm',
+    video: '/media/screen-capture.mp4',
+    poster: '/posters/screen-capture.jpg',
   },
   {
     slug: 'raha-tours',
@@ -111,7 +117,8 @@ export const projects: Project[] = [
     links: [{ label: 'Visit Raha Tours', url: 'https://raha-tourss.vercel.app/' }],
     palette: ['#d9e1bd', '#2e3b27'],
     art: 'orbit',
-    video: '/media/raha.webm',
+    video: '/media/raha.mp4',
+    poster: '/posters/raha.jpg',
   },
   {
     slug: 'amazon-clone',
@@ -134,7 +141,8 @@ export const projects: Project[] = [
     links: [{ label: 'Visit Amazon Clone', url: 'https://amazon-clone-mohammedsalih.netlify.app/' }],
     palette: ['#e6d3ae', '#3a3125'],
     art: 'wave',
-    video: '/media/amazon.webm',
+    video: '/media/amazon.mp4',
+    poster: '/posters/amazon.jpg',
   },
   {
     slug: 'evangadi-forum',
@@ -157,7 +165,8 @@ export const projects: Project[] = [
     links: [{ label: 'Visit Evangadi Forum', url: 'https://evangadi-forummame.netlify.app/' }],
     palette: ['#b8b6a6', '#2a2a26'],
     art: 'stack',
-    video: '/media/evangadi.webm',
+    video: '/media/evangadi.mp4',
+    poster: '/posters/evangadi.jpg',
   },
 ];
 

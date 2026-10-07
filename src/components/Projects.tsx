@@ -1,51 +1,15 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { m, useScroll, useTransform, useSpring } from 'framer-motion';
 import { projects, type Project } from '@/data/projects';
 import SectionHeader from './SectionHeader';
 import Reveal from './Reveal';
 import ProjectArt from './ProjectArt';
 import WorkField from './WorkField';
+import LazyVideo from './LazyVideo';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-
-/* ─── Mockup browser frame for project preview ─── */
-function LazyVideo({ src, className }: { src: string; className?: string }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    const video = videoRef.current;
-    if (!container || !video) return;
-
-    const io = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    });
-
-    io.observe(container);
-    return () => io.disconnect();
-  }, []);
-
-  return (
-    <div ref={containerRef} className={className} style={{ width: '100%', height: '100%' }}>
-      <video
-        ref={videoRef}
-        src={src}
-        loop
-        muted
-        playsInline
-        preload="none"
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-      />
-    </div>
-  );
-}
 
 function BrowserMockup({ project, index }: { project: Project; index: number }) {
   const isEven = index % 2 === 0;
@@ -68,7 +32,7 @@ function BrowserMockup({ project, index }: { project: Project; index: number }) 
         {/* Screen area with video or generative art */}
         <div className="pshow__screen">
           {project.video ? (
-            <LazyVideo src={project.video} className="pshow__video" />
+            <LazyVideo src={project.video} poster={project.poster} className="pshow__video" />
           ) : (
             <div className="pshow__artWrap">
               <ProjectArt kind={project.art} palette={project.palette} seed={`show-${project.slug}`} />
@@ -96,7 +60,7 @@ function ProjectShowcase({ project, index }: { project: Project; index: number }
   const [hi, lo] = project.palette;
 
   return (
-    <motion.article
+    <m.article
       ref={ref}
       className={`pshow ${isEven ? '' : 'pshow--flip'}`}
       style={
@@ -111,7 +75,7 @@ function ProjectShowcase({ project, index }: { project: Project; index: number }
 
       <div className="pshow__inner">
         {/* Content side */}
-        <motion.div className="pshow__content" style={{ y }}>
+        <m.div className="pshow__content" style={{ y }}>
           {/* Number + category */}
           <Reveal>
             <div className="pshow__eyebrow">
@@ -191,14 +155,14 @@ function ProjectShowcase({ project, index }: { project: Project; index: number }
               </div>
             </Reveal>
           )}
-        </motion.div>
+        </m.div>
 
         {/* Visual side — browser mockup */}
         <Reveal delay={200} className="pshow__visual">
           <BrowserMockup project={project} index={index} />
         </Reveal>
       </div>
-    </motion.article>
+    </m.article>
   );
 }
 

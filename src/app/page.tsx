@@ -1,4 +1,3 @@
-import Preloader from '@/components/Preloader';
 import Backdrop from '@/components/Backdrop';
 import ScrollProgress from '@/components/ScrollProgress';
 import Nav from '@/components/Nav';
@@ -19,7 +18,6 @@ const Footer = dynamic(() => import('@/components/Footer'));
 export default function Home() {
   return (
     <>
-      <Preloader />
       <Backdrop />
       <ScrollProgress />
       <Nav />

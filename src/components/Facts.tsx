@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { stack, stackGroups, type StackGroup } from '@/data/facts';
 import SectionHeader from './SectionHeader';
 import Reveal from './Reveal';
@@ -91,7 +91,7 @@ export default function Facts() {
                 pointer the whole way across the table. */}
             <aside className="read" aria-live="polite">
               <div>
-                <motion.div
+                <m.div
                   key={active.symbol}
                   initial={reduce ? false : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -116,7 +116,7 @@ export default function Facts() {
                       <em>no shipped project yet</em>
                     </p>
                   )}
-                </motion.div>
+                </m.div>
               </div>
             </aside>
           </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, type ReactNode, type PointerEvent } from 'react';
-import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
+import { m, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
 
 interface Props {
   children: ReactNode;
@@ -50,7 +50,7 @@ export default function Magnetic({ children, strength = 18, className = '' }: Pr
   };
 
   return (
-    <motion.span
+    <m.span
       ref={ref}
       className={className}
       style={{ x: sx, y: sy, display: 'inline-block' }}
@@ -59,6 +59,6 @@ export default function Magnetic({ children, strength = 18, className = '' }: Pr
       onPointerLeave={reset}
     >
       {children}
-    </motion.span>
+    </m.span>
   );
 }

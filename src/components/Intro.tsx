@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import {
   AnimatePresence,
   animate,
-  motion,
+  m,
   useMotionValue,
   useMotionValueEvent,
   useReducedMotion,
@@ -343,7 +343,7 @@ function Satellite({
   const zIndex = useTransform(depth, (d) => (d > 0.35 ? 80 : d < -0.35 ? 20 : 56));
 
   return (
-    <motion.button
+    <m.button
       type="button"
       className={`intro__sat ${isFront ? 'is-front' : ''} ${isDocked ? 'is-docked' : ''}`}
       style={{ x, y, scale, opacity, zIndex, '--tint': data.tint } as never}
@@ -364,7 +364,7 @@ function Satellite({
       <span className="intro__satNum" aria-hidden="true">
         {String(index + 1).padStart(2, '0')}
       </span>
-    </motion.button>
+    </m.button>
   );
 }
 
@@ -401,7 +401,7 @@ function Dossier({
   };
 
   return (
-    <motion.div
+    <m.div
       className="intro__dossier"
       ref={ref}
       onPointerMove={onMove}
@@ -413,7 +413,7 @@ function Dossier({
       <AnimatePresence mode="wait">
         {/* Opacity and position only — animating `filter: blur()` on a panel
             this size repaints the whole thing every frame. */}
-        <motion.div
+        <m.div
           key={item.id}
           className="intro__dossierBody"
           initial={{ opacity: 0, y: 14 }}
@@ -441,8 +441,8 @@ function Dossier({
               </span>
             ))}
           </div>
-        </motion.div>
+        </m.div>
       </AnimatePresence>
-    </motion.div>
+    </m.div>
   );
 }

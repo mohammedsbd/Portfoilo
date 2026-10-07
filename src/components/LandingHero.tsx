@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
 import LocalClock from './LocalClock';
-import { HERO_VIDEO } from '@/data/media';
+import LazyVideo from './LazyVideo';
+import { HERO_POSTER, HERO_VIDEO } from '@/data/media';
 import { profile } from '@/data/profile';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -38,80 +39,91 @@ interface Particle {
 }
 
 function useParticles(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
-  const mouseRef = useRef({ x: -1000, y: -1000 });
-  const particlesRef = useRef<Particle[]>([]);
-  const rafRef = useRef<number>(0);
-  const dims = useRef({ w: 0, h: 0 });
-  const visible = useRef(true);
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        visible.current = entry.isIntersecting;
-      },
-      { threshold: 0 }
-    );
-    observer.observe(canvas);
+    /* Phones get a lighter field: fewer points, a lower backing-store
+       resolution and half the frame rate. The pairwise line pass is O(n²),
+       so the count is what decides whether a mid-range phone keeps up. */
+    const coarse = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    const maxDpr = coarse ? 1 : 1.5;
+    const frameMs = coarse ? 1000 / 30 : 1000 / 60;
+
+    let width = 0;
+    let height = 0;
+    let particles: Particle[] = [];
+    let visible = true;
+    let raf = 0;
+    let last = 0;
+    let time = 0;
+    const mouse = { x: -1000, y: -1000 };
+
+    const spawn = () => {
+      const count = Math.min(Math.floor((width * height) / (coarse ? 26000 : 16000)), coarse ? 28 : 70);
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        radius: Math.random() * 1.4 + 0.6,
+        opacity: Math.random() * 0.5 + 0.15,
+        pulseSpeed: Math.random() * 0.02 + 0.008,
+        pulseOffset: Math.random() * Math.PI * 2,
+      }));
+    };
 
     const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
       const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-      dims.current = { w: rect.width, h: rect.height };
+      width = rect.width;
+      height = rect.height;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      /* setTransform, not scale: scale() compounds on every resize. */
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
+    spawn();
 
-    /* Spawn particles */
-    const count = Math.min(Math.floor(window.innerWidth / 12), 100);
-    const rect = canvas.getBoundingClientRect();
-    particlesRef.current = Array.from({ length: count }, () => ({
-      x: Math.random() * rect.width,
-      y: Math.random() * rect.height,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      radius: Math.random() * 1.4 + 0.6,
-      opacity: Math.random() * 0.5 + 0.15,
-      pulseSpeed: Math.random() * 0.02 + 0.008,
-      pulseOffset: Math.random() * Math.PI * 2,
-    }));
+    let resizeTimer = 0;
+    const onResize = () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(resize, 150);
+    };
 
     const onMove = (e: MouseEvent) => {
       const r = canvas.getBoundingClientRect();
-      mouseRef.current = { x: e.clientX - r.left, y: e.clientY - r.top };
+      mouse.x = e.clientX - r.left;
+      mouse.y = e.clientY - r.top;
     };
     const onLeave = () => {
-      mouseRef.current = { x: -1000, y: -1000 };
+      mouse.x = -1000;
+      mouse.y = -1000;
     };
-    canvas.addEventListener('mousemove', onMove);
-    canvas.addEventListener('mouseleave', onLeave);
-    window.addEventListener('resize', resize);
 
-    let time = 0;
-    const loop = () => {
-      rafRef.current = requestAnimationFrame(loop);
-      if (!visible.current) return;
+    const pColor = '222, 219, 200';
+    const connectionDist = 120;
+    const connSq = connectionDist * connectionDist;
+    const mouseInfluence = 180;
+    /* Lines are bucketed by alpha so the whole web is a handful of stroke()
+       calls rather than one per pair. */
+    const BUCKETS = 4;
+    const buckets: number[][] = Array.from({ length: BUCKETS }, () => []);
 
+    const draw = (now: number) => {
+      raf = requestAnimationFrame(draw);
+      if (now - last < frameMs) return;
+      last = now;
       time++;
-      const { w: width, h: height } = dims.current;
+
       ctx.clearRect(0, 0, width, height);
+      const mx = mouse.x;
+      const my = mouse.y;
 
-      /* Always dark theme particle color */
-      const pColor = '222, 219, 200';
-
-      const particles = particlesRef.current;
-      const mx = mouseRef.current.x;
-      const my = mouseRef.current.y;
-      const connectionDist = 120;
-      const mouseInfluence = 180;
-
-      /* Update & draw particles */
       for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
@@ -120,7 +132,6 @@ function useParticles(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
         p.x = Math.max(0, Math.min(width, p.x));
         p.y = Math.max(0, Math.min(height, p.y));
 
-        /* Mouse attraction */
         const dxm = mx - p.x;
         const dym = my - p.y;
         const distM = Math.sqrt(dxm * dxm + dym * dym);
@@ -129,65 +140,93 @@ function useParticles(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
           p.vx += dxm * force;
           p.vy += dym * force;
         }
-
-        /* Dampen */
         p.vx *= 0.998;
         p.vy *= 0.998;
 
         const pulse = Math.sin(time * p.pulseSpeed + p.pulseOffset) * 0.3 + 0.7;
-        const alpha = p.opacity * pulse;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${pColor}, ${alpha})`;
-        ctx.fill();
+        ctx.globalAlpha = p.opacity * pulse;
+        ctx.fillStyle = `rgb(${pColor})`;
+        ctx.fillRect(p.x - p.radius, p.y - p.radius, p.radius * 2, p.radius * 2);
       }
 
-      /* Connection lines */
+      for (const b of buckets) b.length = 0;
       for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
         for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < connectionDist) {
-            const alpha = (1 - dist / connectionDist) * 0.12;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(${pColor}, ${alpha})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < connSq) {
+            const k = Math.min(BUCKETS - 1, Math.floor((1 - Math.sqrt(d2) / connectionDist) * BUCKETS));
+            buckets[k].push(a.x, a.y, b.x, b.y);
           }
         }
       }
 
-      /* Mouse-to-particle lines */
+      ctx.strokeStyle = `rgb(${pColor})`;
+      ctx.lineWidth = 0.5;
+      for (let k = 0; k < BUCKETS; k++) {
+        const seg = buckets[k];
+        if (!seg.length) continue;
+        ctx.globalAlpha = ((k + 0.5) / BUCKETS) * 0.12;
+        ctx.beginPath();
+        for (let s = 0; s < seg.length; s += 4) {
+          ctx.moveTo(seg[s], seg[s + 1]);
+          ctx.lineTo(seg[s + 2], seg[s + 3]);
+        }
+        ctx.stroke();
+      }
+
       if (mx > 0 && my > 0) {
+        ctx.lineWidth = 0.3;
+        ctx.globalAlpha = 0.1;
+        ctx.beginPath();
         for (const p of particles) {
           const dx = mx - p.x;
           const dy = my - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < mouseInfluence) {
-            const alpha = (1 - dist / mouseInfluence) * 0.2;
-            ctx.beginPath();
+          if (dx * dx + dy * dy < mouseInfluence * mouseInfluence) {
             ctx.moveTo(mx, my);
             ctx.lineTo(p.x, p.y);
-            ctx.strokeStyle = `rgba(${pColor}, ${alpha})`;
-            ctx.lineWidth = 0.3;
-            ctx.stroke();
           }
         }
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    };
+
+    /* The loop only exists while the hero is on screen and the tab is
+       visible — off screen it costs nothing at all, not an idle rAF. */
+    const sync = () => {
+      const run = visible && document.visibilityState === 'visible';
+      if (run && !raf) raf = requestAnimationFrame(draw);
+      if (!run && raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
       }
     };
 
-    rafRef.current = requestAnimationFrame(loop);
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      sync();
+    });
+    observer.observe(canvas);
+    document.addEventListener('visibilitychange', sync);
+    if (!coarse) {
+      canvas.addEventListener('mousemove', onMove);
+      canvas.addEventListener('mouseleave', onLeave);
+    }
+    window.addEventListener('resize', onResize);
+    sync();
 
     return () => {
       observer.disconnect();
-      cancelAnimationFrame(rafRef.current);
+      cancelAnimationFrame(raf);
+      window.clearTimeout(resizeTimer);
+      document.removeEventListener('visibilitychange', sync);
       canvas.removeEventListener('mousemove', onMove);
       canvas.removeEventListener('mouseleave', onLeave);
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', onResize);
     };
   }, [canvasRef]);
 }
@@ -270,16 +309,16 @@ function RotatingRoles() {
   return (
     <span className="lhero__roleWrap">
       <AnimatePresence mode="wait">
-        <motion.span
+        <m.span
           key={ROLES[index]}
           className="lhero__roleText"
-          initial={{ y: 20, opacity: 0, filter: 'blur(8px)' }}
-          animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-          exit={{ y: -20, opacity: 0, filter: 'blur(8px)' }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -20, opacity: 0 }}
           transition={{ duration: 0.5, ease: EASE }}
         >
           {ROLES[index]}
-        </motion.span>
+        </m.span>
       </AnimatePresence>
     </span>
   );
@@ -288,7 +327,7 @@ function RotatingRoles() {
 /* ─── Scroll Indicator ─── */
 function ScrollIndicator() {
   return (
-    <motion.a
+    <m.a
       href="#about"
       className="lhero__scroll"
       initial={{ opacity: 0 }}
@@ -298,7 +337,7 @@ function ScrollIndicator() {
     >
       <span className="lhero__scrollLine" />
       <span className="lhero__scrollLabel">Scroll</span>
-    </motion.a>
+    </m.a>
   );
 }
 
@@ -367,16 +406,7 @@ export default function LandingHero() {
 
         {/* Video background with enhanced treatment */}
         <div className="lhero__videoBg">
-          <video
-            className="lhero__video"
-            src={HERO_VIDEO}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            aria-hidden="true"
-          />
+          <LazyVideo className="lhero__video" src={HERO_VIDEO} poster={HERO_POSTER} rootMargin="0px" deferUntilIdle />
         </div>
 
         {/* Grain + grade overlays */}
@@ -389,7 +419,7 @@ export default function LandingHero() {
         {/* ──── Nav pill ──── */}
         <nav className="lhero__nav" aria-label="Primary">
           {NAV.map((item, i) => (
-            <motion.a
+            <m.a
               key={item.href}
               href={item.href}
               className="lhero__navLink"
@@ -398,13 +428,13 @@ export default function LandingHero() {
               transition={{ delay: 0.3 + i * 0.08, duration: 0.6, ease: EASE }}
             >
               {item.label}
-            </motion.a>
+            </m.a>
           ))}
           <ThemeToggle />
         </nav>
 
         {/* ──── Floating status badges ──── */}
-        <motion.div
+        <m.div
           className="lhero__badge lhero__badge--clock"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -412,9 +442,9 @@ export default function LandingHero() {
         >
           <span className="lhero__badgeDot lhero__badgeDot--pulse" />
           <LocalClock withSeconds={false} />
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="lhero__badge lhero__badge--status"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -422,12 +452,12 @@ export default function LandingHero() {
         >
           <span className="lhero__badgeDot lhero__badgeDot--live" />
           Available for work
-        </motion.div>
+        </m.div>
 
         {/* ──── Center content ──── */}
         <div className="lhero__content">
           {/* Eyebrow */}
-          <motion.div
+          <m.div
             className="lhero__eyebrow"
             initial={{ opacity: 0, y: 20, scaleX: 0.6 }}
             animate={{ opacity: 1, y: 0, scaleX: 1 }}
@@ -436,47 +466,47 @@ export default function LandingHero() {
             <span className="lhero__eyebrowLine" />
             <GlitchText text="ADDIS ABABA, ETHIOPIA" className="lhero__eyebrowText" delay={800} />
             <span className="lhero__eyebrowLine" />
-          </motion.div>
+          </m.div>
 
           {/* Main title — split across two lines with massive typography */}
           <div className="lhero__title">
-            <motion.h1
+            <m.h1
               className="lhero__name"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              <motion.span
+              <m.span
                 className="lhero__firstName"
                 initial={{ y: 80, opacity: 0, rotateX: 45 }}
                 animate={{ y: 0, opacity: 1, rotateX: 0 }}
                 transition={{ delay: 0.4, duration: 1.1, ease: EASE }}
               >
                 Mohammed
-              </motion.span>
-              <motion.span
+              </m.span>
+              <m.span
                 className="lhero__lastName"
                 initial={{ y: 80, opacity: 0, rotateX: 45 }}
                 animate={{ y: 0, opacity: 1, rotateX: 0 }}
                 transition={{ delay: 0.55, duration: 1.1, ease: EASE }}
               >
                 Salih<sup className="lhero__asterisk">✦</sup>
-              </motion.span>
-            </motion.h1>
+              </m.span>
+            </m.h1>
           </div>
 
           {/* Rotating role + description */}
           <div className="lhero__meta">
-            <motion.div
+            <m.div
               className="lhero__role"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, duration: 0.8, ease: EASE }}
             >
               <RotatingRoles />
-            </motion.div>
+            </m.div>
 
-            <motion.p
+            <m.p
               className="lhero__copy"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -485,9 +515,9 @@ export default function LandingHero() {
               AI architecture and full-stack engineering. Software built for the
               people who actually use it: designed from the data model up, shipped,
               and still standing after the requirements change.
-            </motion.p>
+            </m.p>
 
-            <motion.div
+            <m.div
               className="lhero__actions"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -541,7 +571,7 @@ export default function LandingHero() {
                   →
                 </span>
               </a>
-            </motion.div>
+            </m.div>
           </div>
         </div>
 
@@ -549,7 +579,7 @@ export default function LandingHero() {
         <ScrollIndicator />
 
         {/* Corner coordinates (design flair) */}
-        <motion.span
+        <m.span
           className="lhero__coord lhero__coord--tl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -557,8 +587,8 @@ export default function LandingHero() {
           aria-hidden="true"
         >
           9.0192° N
-        </motion.span>
-        <motion.span
+        </m.span>
+        <m.span
           className="lhero__coord lhero__coord--br"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -566,7 +596,7 @@ export default function LandingHero() {
           aria-hidden="true"
         >
           38.7525° E
-        </motion.span>
+        </m.span>
       </div>
     </section>
   );

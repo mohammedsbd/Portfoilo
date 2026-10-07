@@ -94,7 +94,7 @@
 }
 
 :root[data-theme='light'] .backdrop__grain {
-  opacity: 0.035;
+  opacity: 0.022;
 }
 
 /* The horizon scene is a night sky; ease it back rather than invert it —
@@ -161,10 +161,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   font-feature-settings: 'ss01', 'cv05';
-}
-
-body.is-locked {
-  overflow: hidden;
 }
 
 img,
@@ -294,189 +290,6 @@ button {
 .reveal.is-in {
   opacity: 1;
   transform: none;
-}
-
-/* ============================================================
-   Intro — the hallmark being struck
-   ------------------------------------------------------------
-   The plate is two triangles meeting along the same diagonal the
-   logo is scored with, so releasing them tears the screen along
-   the mark's own line instead of parting a curtain.
-   ============================================================ */
-
-.pre {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Nothing in here is interactive, and it is the topmost layer on the page.
-     Making it transparent to the pointer means a stalled exit animation can
-     never leave an invisible sheet swallowing clicks on the hero. */
-  pointer-events: none;
-}
-
-/* Oversized on purpose: each half has to still cover its side of the screen
-   while it is sliding away, and a triangle clipped to the viewport would show
-   the seam of its own bounding box as it went. */
-.pre__half {
-  position: absolute;
-  top: -25%;
-  left: -25%;
-  width: 150%;
-  height: 150%;
-  background: #050505;
-  will-change: transform;
-}
-
-.pre__half--a {
-  clip-path: polygon(0 0, 100% 0, 0 100%);
-}
-
-.pre__half--b {
-  clip-path: polygon(100% 0, 100% 100%, 0 100%);
-}
-
-.pre__stage {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(1.1rem, 3vh, 1.9rem);
-}
-
-/* Registration marks — the crosses a plate is set up against. */
-.pre__reg {
-  position: absolute;
-  width: 13px;
-  height: 13px;
-  pointer-events: none;
-  background:
-    linear-gradient(var(--accent), var(--accent)) center / 1px 100% no-repeat,
-    linear-gradient(var(--accent), var(--accent)) center / 100% 1px no-repeat;
-}
-
-.pre__reg--tl { top: -3.2rem; left: -3.2rem; }
-.pre__reg--tr { top: -3.2rem; right: -3.2rem; }
-.pre__reg--bl { bottom: -3.2rem; left: -3.2rem; }
-.pre__reg--br { bottom: -3.2rem; right: -3.2rem; }
-
-/* ---------- the die ---------- */
-
-.pre__mark {
-  position: relative;
-  width: clamp(94px, 22vw, 132px);
-  aspect-ratio: 1;
-}
-
-.pre__die {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.pre__die rect,
-.pre__die line {
-  stroke: var(--accent);
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
-  opacity: 0.55;
-}
-
-.pre__letter {
-  position: absolute;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: clamp(1.6rem, 4vw, 2.15rem);
-  line-height: 1;
-  will-change: transform;
-}
-
-/* Same corners the header hallmark punches them into. */
-.pre__letter--m {
-  top: 15%;
-  left: 15%;
-  color: #e1e0cc;
-}
-
-.pre__letter--s {
-  right: 15%;
-  bottom: 15%;
-  color: var(--accent-soft);
-}
-
-/* Thrown off each letter as it lands. */
-.pre__shock {
-  position: absolute;
-  width: 42%;
-  height: 42%;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  pointer-events: none;
-  will-change: transform;
-}
-
-.pre__shock--m {
-  top: 8%;
-  left: 8%;
-}
-
-.pre__shock--s {
-  right: 8%;
-  bottom: 8%;
-}
-
-/* ---------- the signature ---------- */
-
-.pre__name {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.35rem, 4.5vw, 2rem);
-  line-height: 1;
-  letter-spacing: 0.01em;
-  color: #e1e0cc;
-}
-
-.pre__name em {
-  font-style: italic;
-  color: var(--accent);
-}
-
-/* ---------- the meter ---------- */
-
-.pre__meter {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-}
-
-.pre__rule {
-  display: block;
-  width: min(190px, 42vw);
-  height: 1px;
-  background: rgba(222, 219, 200, 0.14);
-  overflow: hidden;
-}
-
-.pre__rule i {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: var(--accent);
-  transform-origin: left;
-}
-
-.pre__pct {
-  font-family: var(--font-mono);
-  font-size: 0.5625rem;
-  letter-spacing: 0.18em;
-  color: rgba(222, 219, 200, 0.45);
-  font-variant-numeric: tabular-nums;
 }
 
 /* ============================================================
@@ -1132,11 +945,11 @@ button {
    ============================================================ */
 
 .noise-overlay {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("/noise.png");
 }
 
 .bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("/noise.png");
 }
 
 /* ============================================================
@@ -1241,7 +1054,6 @@ button {
     rgba(180, 175, 140, 0.04) 40%,
     transparent 70%
   );
-  filter: blur(80px);
   pointer-events: none;
   z-index: 1;
   animation: orb-breathe 8s ease-in-out infinite;
@@ -1264,7 +1076,6 @@ button {
     transparent 75%
   );
   animation: orb-breathe 11s ease-in-out 3s infinite reverse;
-  filter: blur(100px);
 }
 
 @keyframes orb-breathe {
@@ -1302,7 +1113,6 @@ button {
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: contrast(1.12) brightness(1.02) saturate(1.25);
 }
 
 /* ── Grain + grade ── */
@@ -1310,8 +1120,7 @@ button {
   position: absolute;
   inset: 0;
   z-index: 3;
-  opacity: var(--hero-grain, 0.14);
-  mix-blend-mode: overlay;
+  opacity: var(--hero-grain, 0.06);
   pointer-events: none;
 }
 
@@ -2649,7 +2458,6 @@ button {
   height: 75%;
   pointer-events: none;
   background: radial-gradient(ellipse at 50% 40%, var(--accent-glow), transparent 70%);
-  filter: blur(50px);
   transition: background 0.7s var(--ease);
 }
 
@@ -3588,8 +3396,8 @@ button {
 .backdrop__grain {
   position: absolute;
   inset: 0;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  background-image: url("/noise.png");
 }
 
 /* Twinkle is done per-group, not per-star: three CSS opacity animations
@@ -5661,7 +5469,6 @@ main,
     color-mix(in srgb, var(--p-hi) 4%, transparent) 0%,
     transparent 60%
   );
-  filter: blur(20px);
   opacity: 0.5;
   pointer-events: none;
   transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
@@ -7110,7 +6917,6 @@ main,
   object-fit: cover;
   display: block;
   opacity: 0.42;
-  filter: contrast(1.12) brightness(1.02) saturate(1.25);
 }
 
 /* A wash, not a flat tint: opaque at the seam so the border-top still reads
@@ -7443,5 +7249,60 @@ main,
   .reveal {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ============================================================
+   Phone / touch performance tier
+   ------------------------------------------------------------
+   Phones were stalling on the same scene a laptop draws easily.
+   What costs them is not motion itself but motion on big layers:
+   backdrop blurs re-sampling everything behind them each frame,
+   and infinite loops on full-width washes, clouds and rings that
+   keep the GPU compositing a dozen screen-sized textures forever.
+   Here those go still; the small, cheap loops (live dots, caret,
+   ticker, scroll cue) and every scroll/entrance animation stay.
+   ============================================================ */
+@media (hover: none), (pointer: coarse), (max-width: 768px) {
+  *,
+  *::before,
+  *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Without the blur, the glass needs a denser fill to stay legible. */
+  .lhero__nav,
+  .lhero__badge {
+    background: rgba(5, 5, 5, 0.82);
+  }
+
+  .lhero__orb,
+  .lhero__orb--secondary,
+  .lhero__aurora,
+  .announce::after,
+  .lhero__ctaResume::after,
+  .intro__cloud--a,
+  .intro__cloud--b,
+  .intro__stars,
+  .intro__ring--inner,
+  .intro__ring--outer,
+  .intro__coreSweep,
+  .plot__d,
+  .plot__scan,
+  .stars-a,
+  .stars-b,
+  .stars-c,
+  .mote,
+  .plaque__foil,
+  .medal__rim {
+    animation: none !important;
+  }
+
+  /* Each will-change pins a GPU texture for the life of the page; on a
+     phone with a few hundred MB for the browser that is what crashes it. */
+  .pullup__word,
+  .backdrop__wash {
+    will-change: auto;
   }
 }

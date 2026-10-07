@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, type CSSProperties } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { m, useInView } from 'framer-motion';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const STAGGER = 0.08;
@@ -30,7 +30,7 @@ export function WordsPullUp({
       {words.map((word, i) => {
         const isLast = i === words.length - 1;
         return (
-          <motion.span
+          <m.span
             key={i}
             className="pullup__word"
             initial={{ y: 20, opacity: 0 }}
@@ -46,7 +46,7 @@ export function WordsPullUp({
               word
             )}
             {!isLast && ' '}
-          </motion.span>
+          </m.span>
         );
       })}
     </span>
@@ -84,7 +84,7 @@ export function WordsPullUpMultiStyle({
   return (
     <span ref={ref} className={`pullup__multi ${className}`.trim()}>
       {words.map((word, i) => (
-        <motion.span
+        <m.span
           key={i}
           className={`pullup__word ${word.className}`.trim()}
           initial={{ y: 20, opacity: 0 }}
@@ -93,7 +93,7 @@ export function WordsPullUpMultiStyle({
         >
           {word.text}
           {' '}
-        </motion.span>
+        </m.span>
       ))}
     </span>
   );

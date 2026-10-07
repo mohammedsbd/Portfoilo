@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { m, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 
 const SRC = '/media/showreel.mp4';
 
@@ -97,7 +97,7 @@ export default function Showreel() {
     `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
   return (
-    <motion.div
+    <m.div
       className="reel"
       ref={wrapRef}
       initial={{ opacity: 0, y: 40 }}
@@ -105,7 +105,7 @@ export default function Showreel() {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
     >
-      <motion.span className="reel__aura" style={reduce ? undefined : { opacity: glow }} />
+      <m.span className="reel__aura" style={reduce ? undefined : { opacity: glow }} />
 
       <div
         className="reel__frame"
@@ -202,6 +202,6 @@ export default function Showreel() {
           <span ref={progressBarRef} style={{ transform: 'scaleX(0)' }} />
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

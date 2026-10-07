@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { education, certifications } from '@/data/profile';
 import SectionHeader from './SectionHeader';
 import Reveal from './Reveal';
@@ -86,7 +86,7 @@ export default function Education() {
 
                   <svg className="medal__gauge" viewBox="0 0 200 200" aria-hidden="true">
                     <circle className="medal__track" cx="100" cy="100" r="62" />
-                    <motion.circle
+                    <m.circle
                       className="medal__arc"
                       cx="100"
                       cy="100"
@@ -135,7 +135,7 @@ export default function Education() {
               <span className="modules__label">Relevant coursework</span>
               <ol className="modules__grid">
                 {education.coursework.map((course, i) => (
-                  <motion.li
+                  <m.li
                     key={course}
                     className="module"
                     initial={reduce ? false : { opacity: 0, y: 14 }}
@@ -145,7 +145,7 @@ export default function Education() {
                   >
                     <span className="module__no">{String(i + 1).padStart(2, '0')}</span>
                     <span className="module__name">{course}</span>
-                  </motion.li>
+                  </m.li>
                 ))}
               </ol>
             </div>

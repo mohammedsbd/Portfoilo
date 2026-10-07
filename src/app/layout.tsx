@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Almarai, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { profile } from '@/data/profile';
+import MotionProvider from '@/components/MotionProvider';
 
 // Global default face.
 const almarai = Almarai({
@@ -126,7 +127,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdString }}
         />
-        {children}
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 'use client';
 
-import { motion, useScroll, useSpring, useTransform, useReducedMotion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { m, useScroll, useSpring, useTransform, useReducedMotion } from 'framer-motion';
 
 /**
  * Page-wide backdrop.
@@ -12,6 +13,12 @@ import { motion, useScroll, useSpring, useTransform, useReducedMotion } from 'fr
  */
 export default function Backdrop() {
   const reduce = useReducedMotion();
+  /* On touch screens the drift is invisible under a thumb-scroll anyway, and
+     moving a full-viewport layer every scroll frame is real work for a phone. */
+  const [touch, setTouch] = useState(true);
+  useEffect(() => {
+    setTouch(window.matchMedia('(hover: none), (pointer: coarse)').matches);
+  }, []);
   const { scrollYProgress } = useScroll();
 
   const y = useSpring(useTransform(scrollYProgress, [0, 1], ['0%', '-12%']), {
@@ -23,7 +30,7 @@ export default function Backdrop() {
 
   return (
     <div className="backdrop" aria-hidden="true">
-      <motion.div className="backdrop__wash" style={reduce ? undefined : { y }} />
+      <m.div className="backdrop__wash" style={reduce || touch ? undefined : { y }} />
       <div className="backdrop__grain bg-noise" />
     </div>
   );
