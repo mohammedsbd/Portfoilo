@@ -257,12 +257,6 @@
   background: radial-gradient(closest-side, #fb923c, transparent);
   animation: hero-drift-b 18s ease-in-out infinite alternate;
 }
-.hero-glow-line {
-  background: linear-gradient(90deg, transparent, #f97316 50%, transparent);
-  background-size: 50% 100%;
-  background-repeat: no-repeat;
-  animation: hero-sweep 6s ease-in-out infinite;
-}
 @keyframes hero-drift-a {
   from { transform: translate(0, 0) scale(1); }
   to { transform: translate(120px, 30px) scale(1.15); }
@@ -271,13 +265,8 @@
   from { transform: translate(0, 10px) scale(1.1); }
   to { transform: translate(-140px, -10px) scale(0.95); }
 }
-@keyframes hero-sweep {
-  from { background-position: -100% 0; }
-  to { background-position: 200% 0; }
-}
 @media (prefers-reduced-motion: reduce) {
-  .hero-glow,
-  .hero-glow-line {
+  .hero-glow {
     animation: none;
   }
 }
