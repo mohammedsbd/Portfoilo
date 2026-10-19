@@ -329,3 +329,6 @@
     animation: none;
   }
 }
+.resume-btn {
+  --resume-accent: #f97316;
+}
