@@ -6,16 +6,14 @@ export function ResumeButton({ href }: { href: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="resume-btn group w-fit"
+      className="group inline-flex w-fit items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
-      <span className="resume-btn-inner">
-        <FileText className="size-4 transition-transform duration-300 group-hover:-rotate-6" aria-hidden />
-        View my résumé
-        <ArrowUpRight
-          className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          aria-hidden
-        />
-      </span>
+      <FileText className="size-4" aria-hidden />
+      Resume
+      <ArrowUpRight
+        className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+        aria-hidden
+      />
     </a>
   );
 }
