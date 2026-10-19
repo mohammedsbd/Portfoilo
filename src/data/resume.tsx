@@ -189,21 +189,21 @@ export const DATA = {
       image: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/amazon_clone.png",
     },
     {
-      title: "BioMatch",
-      href: "https://bio-match-tau.vercel.app/",
-      dates: "2025",
+      title: "Evangadi Forum",
+      href: "https://github.com/mohammedsbd/evangadi-frorum-frontend",
+      dates: "2024",
       active: true,
       description:
-        "An AI-powered organ donor matching startup using real population genetics data for multi-organ compatibility analysis. Pitched at Lead Business 2025 and to investors at the Africa Youth Forum.",
-      technologies: ["Next.js", "TypeScript", "Laravel", "AI"],
+        "A Q&A community platform for Evangadi Tech where users post questions, answer each other, and interact in a structured way. Built end to end with Laravel APIs and a React frontend.",
+      technologies: ["React", "Laravel", "REST API"],
       links: [
         {
-          type: "Website",
-          href: "https://bio-match-tau.vercel.app/",
-          icon: <Icons.globe className="size-3" />,
+          type: "Source",
+          href: "https://github.com/mohammedsbd/evangadi-frorum-frontend",
+          icon: <Icons.github className="size-3" />,
         },
       ],
-      image: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/bio.png",
+      image: "https://res.cloudinary.com/dksnuwud/video/upload/v1792311129/evangadi.jpg",
     },
     {
       title: "Raha Tours",
@@ -223,21 +223,21 @@ export const DATA = {
       image: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/raha.png",
     },
     {
-      title: "Evangadi Forum",
-      href: "https://github.com/mohammedsbd/evangadi-frorum-frontend",
-      dates: "2024",
+      title: "BioMatch",
+      href: "https://bio-match-tau.vercel.app/",
+      dates: "2025",
       active: true,
       description:
-        "A Q&A community platform for Evangadi Tech where users post questions, answer each other, and interact in a structured way. Built end to end with Laravel APIs and a React frontend.",
-      technologies: ["React", "Laravel", "REST API"],
+        "An AI-powered organ donor matching startup using real population genetics data for multi-organ compatibility analysis. Pitched at Lead Business 2025 and to investors at the Africa Youth Forum.",
+      technologies: ["Next.js", "TypeScript", "Laravel", "AI"],
       links: [
         {
-          type: "Source",
-          href: "https://github.com/mohammedsbd/evangadi-frorum-frontend",
-          icon: <Icons.github className="size-3" />,
+          type: "Website",
+          href: "https://bio-match-tau.vercel.app/",
+          icon: <Icons.globe className="size-3" />,
         },
       ],
-      image: "https://res.cloudinary.com/dksnuwud/video/upload/v1792311129/evangadi.jpg",
+      image: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/bio.png",
     },
   ],
 } as const;
