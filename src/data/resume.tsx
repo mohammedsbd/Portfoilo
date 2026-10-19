@@ -177,7 +177,7 @@ export const DATA = {
       dates: "2024",
       active: true,
       description:
-        "A from-scratch rebuild of the Amazon storefront in React and Tailwind, with no UI kit. Cloning a familiar interface keeps you honest: the layout holds at every breakpoint or visibly doesn't.",
+        "A from-scratch rebuild of the Amazon storefront in React and Tailwind, with no UI kit and no AI. Built for fun in my free time, because cloning a familiar interface keeps you honest: the layout holds at every breakpoint or visibly doesn't.",
       technologies: ["React", "Tailwind CSS"],
       links: [
         {
