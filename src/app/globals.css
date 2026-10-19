@@ -270,3 +270,12 @@
     animation: none;
   }
 }
+
+/* Warm orange glow rising from the bottom of the contact card */
+.contact-card {
+  background: radial-gradient(
+    120% 70% at 50% 120%,
+    color-mix(in oklab, #f97316 18%, transparent),
+    transparent 70%
+  );
+}
