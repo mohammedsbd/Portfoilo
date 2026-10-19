@@ -20,6 +20,7 @@ export const DATA = {
   summary:
     "I'm a senior software developer with five years of experience building real products. Great AI products start with solid architecture. System design is my strongest skill, and it is where I’m most comfortable and do my best work.\n\nI'm the Co-Founder and AI Backend Lead of [AfroDigital Innovation Labs](https://afrodigital.dev/), one of Ethiopia's most prominent digital agencies, where I've led for five years. There, I architect the intelligent systems behind our products, turning complex ideas into platforms that businesses and institutions rely on every day.\n\nOutside AfroDigital, I build and launch my own products. I founded [Parsim](https://parsim-landing.vercel.app), a drop-in proxy that manages context for long-running AI agents, and [Agentum](https://agentum-xwf6.onrender.com/), an enterprise AI customer-support platform, along with several other independent products.\n\nMy craft lives in the backend. I architect with Node.js, NestJS, and Hono, and I hold every release to the standard of a professional QA engineer, because I am one. I write the code, then I try to break it.\n\nCurrently the most active GitHub user in Ethiopia, and building from Addis Ababa. If you're working on something ambitious, I'd like to hear about it.",
   avatarUrl: "/mohammed.jpg",
+  resumeUrl: "/Mohammed_Salih_Resume.pdf",
   languages: [
     { name: "TypeScript", icon: Typescript },
     { name: "Ruby", icon: "/tech/ruby.svg" },
