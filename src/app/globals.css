@@ -234,3 +234,51 @@
   }
 
 }
+
+/* Resume button: a light that circles the pill's border */
+.resume-btn {
+  --resume-accent: var(--foreground);
+  position: relative;
+  display: inline-flex;
+  padding: 1.5px;
+  border-radius: 9999px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--border);
+}
+.resume-btn::before {
+  content: "";
+  position: absolute;
+  inset: -250%;
+  z-index: -1;
+  background: conic-gradient(from 0deg, transparent 0 75%, var(--resume-accent) 90%, transparent 100%);
+  animation: resume-spin 3.5s linear infinite;
+}
+.resume-btn-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: var(--background);
+  padding: 0.55rem 1.15rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  transition: background-color 0.3s, color 0.3s;
+}
+.resume-btn:hover .resume-btn-inner,
+.resume-btn:focus-visible .resume-btn-inner {
+  background: color-mix(in oklab, var(--resume-accent) 12%, var(--background));
+}
+.resume-btn:focus-visible {
+  outline: 2px solid var(--resume-accent);
+  outline-offset: 3px;
+}
+@keyframes resume-spin {
+  to { transform: rotate(1turn); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .resume-btn::before {
+    animation: none;
+  }
+}
