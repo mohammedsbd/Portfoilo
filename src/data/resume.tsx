@@ -18,7 +18,7 @@ export const DATA = {
   description:
     "Senior Software Engineer specializing in backend systems and applied AI. I design and ship scalable services and LLM-powered agents, with a strong focus on reliability and testing.",
   summary:
-    "I'm a senior software developer with five years of experience building real products. Great AI products start with solid architecture. System design is my strongest skill, and it is where I’m most comfortable and do my best work.\n\nI'm the Co-Founder and AI Backend Lead of [AfroDigital Innovation Labs](https://afrodigital.dev/), one of Ethiopia's most prominent digital agencies, where I've led for five years. There, I architect the intelligent systems behind our products, turning complex ideas into platforms that businesses and institutions rely on every day.\n\nOutside AfroDigital, I build and launch my own products. I founded [Parsim](https://parsim-landing.vercel.app), a drop-in proxy that manages context for long-running AI agents, and [Agentum](https://agentum-xwf6.onrender.com/), an enterprise AI customer-support platform, along with several other independent products.\n\nMy craft lives in the backend. I architect with Node.js, NestJS, and Hono, and I hold every release to the standard of a professional QA engineer, because I am one. I write the code, then I try to break it.\n\nCurrently the most active GitHub user in Ethiopia, and building from Addis Ababa. If you're working on something ambitious, I'd like to hear about it.",
+    "I'm a senior software developer with five years of experience building real products. Great AI products start with solid architecture. System design is my strongest skill, and it is where I’m most comfortable and do my best work.\n\nSince 2022, I've served as Backend and AI Lead at [AfroDigital Innovation Labs](https://afrodigital.dev/), one of Ethiopia's most prominent digital agencies. I lead the design and delivery of AI-powered systems, from LLM-driven features to autonomous agents, and build the scalable backend infrastructure that takes them into production for businesses and institutions.\n\nOutside AfroDigital, I build and launch my own products. I founded [Parsim](https://parsim-landing.vercel.app), a drop-in proxy that manages context for long-running AI agents, and [Agentum](https://agentum-xwf6.onrender.com/), an enterprise AI customer-support platform, along with several other independent products.\n\nMy craft lives in the backend. I architect with Node.js, NestJS, and Hono, and I hold every release to the standard of a professional QA engineer, because I am one. I write the code, then I try to break it.\n\nCurrently the most active GitHub user in Ethiopia, and building from Addis Ababa. If you're working on something ambitious, I'd like to hear about it.",
   avatarUrl: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/photo_2026-10-19_13-57-53.jpg",
   resumeUrl: "/Mohammed_Salih_Resume.pdf",
   languages: [
@@ -90,12 +90,12 @@ export const DATA = {
       href: "https://afrodigital.dev/",
       badges: [],
       location: "Addis Ababa, Ethiopia",
-      title: "Co-Founder & AI Backend Lead",
+      title: "Backend & AI Lead",
       logoUrl: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/afro.png",
-      start: "2021",
+      start: "2022",
       end: "Present",
       description:
-        "Co-founded a software development PLC delivering web, AI, cloud, and security solutions for client organizations. Lead AI integration across client projects, from designing LLM-powered features and autonomous agents to shipping them into production, and guide a team of developers building AI-powered products.",
+        "Lead backend and AI engineering at a software development PLC delivering web, AI, cloud, and security solutions for client organizations. Drive AI integration across client projects, from designing LLM-powered features and autonomous agents to shipping them into production, and guide a team of developers building AI-powered products.",
     },
   ],
   education: [
