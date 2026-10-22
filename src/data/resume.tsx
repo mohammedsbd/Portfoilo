@@ -84,7 +84,7 @@ export const DATA = {
 
   work: [
     {
-      company: "AfroDigital Innovation Labs PLC",
+      company: "AfroDigital Innovation Labs",
       href: "https://afrodigital.dev/",
       badges: [],
       location: "Addis Ababa, Ethiopia",
