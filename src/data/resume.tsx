@@ -145,7 +145,7 @@ export const DATA = {
       active: true,
       description:
         "A drop-in proxy that garbage-collects context for long-running AI agents, speaking the OpenAI and Anthropic APIs. It keeps, compresses, archives, or drops context per request and tracks tokens saved.",
-      technologies: ["AI", "Developer Tools", "Infrastructure"],
+      technologies: ["AI", "Developer Tools"],
       links: [
         {
           type: "Website",
