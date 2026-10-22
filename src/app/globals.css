@@ -242,11 +242,10 @@
   --hero-fade: 0.22;
 }
 
-/* Warm orange glow rising from the bottom of the contact card */
+/* Soft orange fade at the top of the contact card, matching the page top */
 .contact-card {
-  background: radial-gradient(
-    120% 70% at 50% 120%,
-    color-mix(in oklab, #f97316 18%, transparent),
-    transparent 70%
-  );
+  background: linear-gradient(to bottom, rgb(249 115 22 / var(--contact-fade, 0.1)), transparent 60%);
+}
+.dark .contact-card {
+  --contact-fade: 0.14;
 }
