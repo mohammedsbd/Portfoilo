@@ -241,11 +241,3 @@
 .dark .hero-glow {
   --hero-fade: 0.22;
 }
-
-/* Soft orange fade at the top of the contact card, matching the page top */
-.contact-card {
-  background: linear-gradient(to bottom, rgb(249 115 22 / var(--contact-fade, 0.1)), transparent 60%);
-}
-.dark .contact-card {
-  --contact-fade: 0.14;
-}
