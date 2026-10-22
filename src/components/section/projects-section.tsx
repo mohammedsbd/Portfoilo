@@ -27,7 +27,7 @@ export default function ProjectsSection() {
                         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">A Glimpse of My Work</h2>
                         <p className="text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed xl:text-lg/relaxed text-balance text-center">
                             Much of my production work is private and protected by NDAs.
-                            Here&apos;s a selection of projects I&apos;m able to share publicly.
+                            But here&apos;s a selection of projects I&apos;m able to share publicly.
                         </p>
                     </div>
                 </div>

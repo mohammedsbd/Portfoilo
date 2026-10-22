@@ -10,6 +10,9 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --color-background: var(--background);
+  --color-brand: var(--brand);
+  --color-brand-solid: var(--brand-solid);
+  --color-brand-solid-hover: var(--brand-solid-hover);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -44,6 +47,10 @@
 
 :root {
   --radius: 0.625rem;
+  --brand: #1e3a8a;
+  --brand-solid: #1e3a8a;
+  --brand-solid-hover: #1e40af;
+  --brand-rgb: 30 58 138;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -78,6 +85,10 @@
 }
 
 .dark {
+  --brand: #60a5fa;
+  --brand-solid: #1d4ed8;
+  --brand-solid-hover: #2563eb;
+  --brand-rgb: 37 99 235;
   --background: oklch(0.18 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -234,10 +245,19 @@
   }
 
 }
-/* Soft orange fade at the top of the page */
+/* Dark blue spotlight at the top of the page: a thin bright edge with a soft beam below it */
 .hero-glow {
-  background: linear-gradient(to bottom, rgb(249 115 22 / var(--hero-fade, 0.18)), transparent);
+  background: radial-gradient(ellipse 50% 100% at 50% 0%, rgb(var(--brand-rgb) / var(--hero-beam, 0.22)), transparent 70%);
+}
+.hero-glow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgb(var(--brand-rgb) / 0.9), transparent);
 }
 .dark .hero-glow {
-  --hero-fade: 0.22;
+  --hero-beam: 0.3;
 }
