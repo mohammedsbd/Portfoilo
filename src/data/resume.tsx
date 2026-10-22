@@ -128,7 +128,7 @@ export const DATA = {
       active: true,
       description:
         "An AI-Director-driven school operating system for complete school management. An autonomous AI Director runs nightly audits, morning briefings, and 24/7 multilingual parent communication.",
-      technologies: ["AI", "School Management", "Multilingual"],
+      technologies: ["AI", "Education", "School Management"],
       links: [
         {
           type: "Website",
@@ -145,7 +145,7 @@ export const DATA = {
       active: true,
       description:
         "A drop-in proxy that garbage-collects context for long-running AI agents, speaking the OpenAI and Anthropic APIs. It keeps, compresses, archives, or drops context per request and tracks tokens saved.",
-      technologies: ["TypeScript", "OpenAI API", "Anthropic API", "AI Agents"],
+      technologies: ["AI", "Developer Tools", "Infrastructure"],
       links: [
         {
           type: "Website",
@@ -161,8 +161,8 @@ export const DATA = {
       dates: "",
       active: true,
       description:
-        "An enterprise-grade AI customer-support platform built on Next.js 16 and React 19. Businesses ingest docs, PDFs, CSVs, or websites into custom sections and embed an AI chat widget anywhere.",
-      technologies: ["Next.js 16", "React 19", "TypeScript", "AI"],
+        "An enterprise-grade AI customer-support platform. Businesses ingest docs, PDFs, CSVs, or websites into custom sections and embed an AI chat widget anywhere.",
+      technologies: ["AI", "Customer Support", "SaaS"],
       links: [
         {
           type: "Website",
@@ -178,8 +178,8 @@ export const DATA = {
       dates: "2024",
       active: true,
       description:
-        "A from-scratch rebuild of the Amazon storefront in React and Tailwind, with no UI kit and no AI. Built for fun in my free time, because cloning a familiar interface keeps you honest: the layout holds at every breakpoint or visibly doesn't.",
-      technologies: ["React", "Tailwind CSS"],
+        "A from-scratch rebuild of the Amazon storefront, with no UI kit and no AI. Built for fun in my free time, because cloning a familiar interface keeps you honest: the layout holds at every breakpoint or visibly doesn't.",
+      technologies: ["E-Commerce", "Retail"],
       links: [
         {
           type: "Website",
@@ -195,8 +195,8 @@ export const DATA = {
       dates: "2024",
       active: true,
       description:
-        "A Q&A community platform for Evangadi Tech where users post questions, answer each other, and interact in a structured way. Built end to end with Laravel APIs and a React frontend.",
-      technologies: ["React", "Laravel", "REST API"],
+        "A Q&A community platform for Evangadi Tech where users post questions, answer each other, and interact in a structured way. Built end to end, from the backend API to the user interface.",
+      technologies: ["Education", "Community", "Forum"],
       links: [
         {
           type: "Website",
@@ -212,8 +212,8 @@ export const DATA = {
       dates: "",
       active: true,
       description:
-        "A high-conversion tourism web app crafted for a private client with React 19 and Tailwind CSS. Features tour package discovery, destination showcases, booking inquiries, and a mobile-first UI.",
-      technologies: ["React 19", "Tailwind CSS"],
+        "A high-conversion tourism web app crafted for a private client. Features tour package discovery, destination showcases, booking inquiries, and a mobile-first UI.",
+      technologies: ["Tourism", "Travel", "Booking"],
       links: [
         {
           type: "Website",
@@ -230,7 +230,7 @@ export const DATA = {
       active: true,
       description:
         "An AI-powered organ donor matching startup using real population genetics data for multi-organ compatibility analysis. Pitched at Lead Business 2025 and to investors at the Africa Youth Forum.",
-      technologies: ["Next.js", "TypeScript", "Laravel", "AI"],
+      technologies: ["AI", "Healthcare", "Startup"],
       links: [
         {
           type: "Website",
