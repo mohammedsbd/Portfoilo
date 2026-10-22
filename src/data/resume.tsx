@@ -49,8 +49,6 @@ export const DATA = {
     { name: "Docker", icon: Docker },
     { name: "Kubernetes", icon: Kubernetes },
     { name: "Git & GitHub", icon: "/tech/git.svg" },
-    { name: "GitHub Actions", icon: "/tech/github-actions.svg" },
-    { name: "LangChain", icon: "/tech/langchain.svg" },
   ],
   navbar: [{ href: "/", icon: HomeIcon, label: "Home" }],
   contact: {
