@@ -15,7 +15,7 @@ export default function ContactSection() {
       <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row">
         <Link
           href={DATA.contact.social.email.url}
-          className="group inline-flex items-center gap-2 rounded-full bg-brand-solid px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-solid-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <Mail className="size-4" aria-hidden />
           {DATA.contact.email}
