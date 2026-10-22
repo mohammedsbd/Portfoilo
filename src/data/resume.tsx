@@ -107,7 +107,7 @@ export const DATA = {
       start: "2024",
       end: "Present",
       description:
-        "I'm not only a student at BITS College, I also teach here. Selected for my academic performance, I serve as a lab teaching assistant, teaching Python to first-year students and Data Structures & Algorithms to second-year students. I also lead development teams building real software for the college.",
+        "Alongside my studies, I also teach at BITS College. Selected for my academic performance, I serve as a lab teaching assistant, teaching Data Structures & Algorithms and Python to junior students. I also lead development teams building real software for the college.",
     },
     {
       school: "Evangadi Tech",
