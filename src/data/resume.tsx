@@ -175,7 +175,7 @@ export const DATA = {
     {
       title: "Amazon Storefront",
       href: "https://amazon-clone-mohammedsalih.netlify.app/",
-      dates: "2024",
+      dates: "",
       active: true,
       description:
         "A from-scratch rebuild of the Amazon storefront, with no UI kit and no AI. Built for fun in my free time, because cloning a familiar interface keeps you honest: the layout holds at every breakpoint or visibly doesn't.",
@@ -192,7 +192,7 @@ export const DATA = {
     {
       title: "Evangadi Forum",
       href: "https://evangadi-forummame.netlify.app",
-      dates: "2024",
+      dates: "",
       active: true,
       description:
         "A Q&A community platform for Evangadi Tech where users post questions, answer each other, and interact in a structured way. Built end to end, from the backend API to the user interface.",
@@ -226,7 +226,7 @@ export const DATA = {
     {
       title: "BioMatch",
       href: "https://bio-match-tau.vercel.app/",
-      dates: "2025",
+      dates: "",
       active: true,
       description:
         "An AI-powered organ donor matching startup using real population genetics data for multi-organ compatibility analysis. Pitched at Lead Business 2025 and to investors at the Africa Youth Forum.",
