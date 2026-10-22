@@ -18,7 +18,7 @@ export const DATA = {
   description:
     "Senior Software Developer and Professional QA Engineer. I design and ship real products that just work.",
   summary:
-    "I'm Mohammed, a senior software developer with five years of experience designing, building, and shipping production systems. Great AI products start with solid architecture. System design is my strongest skill, and it is where I’m most comfortable and do my best work.\n\nSince 2022, I've served as Backend and AI Lead at [AfroDigital Innovation Labs](https://afrodigital.dev/), one of Ethiopia's most prominent digital agencies. I oversee AI engineering across our client portfolio, from LLM-driven features to autonomous agents, and build the scalable backend infrastructure that takes them into production for businesses and institutions.\n\nOutside AfroDigital, I build and launch my own products. I founded [Parsim](https://parsim-landing.vercel.app), a drop-in proxy that manages context for long-running AI agents, and [Agentum](https://agentum.afrodigital.dev/), an enterprise AI customer-support platform, along with several other independent products.\n\nI'm also a professional QA engineer with a strong background in software testing, so I care as much about how systems fail as how they work. Selected for my academic performance, I work as a lab teaching assistant at BITS College, the same college where I'm studying, teaching Data Structures and Algorithms and Python to junior students.\n\nCurrently the top-ranked GitHub contributor in Ethiopia, working from Addis Ababa with teams worldwide. Have an ambitious idea that needs solid engineering behind it? Let's talk.",
+    "I'm Mohammed, a senior software developer with five years of experience designing, building, and shipping production systems. Great AI products start with solid architecture. System design is my strongest skill, and it is where I’m most comfortable and do my best work.\n\nSince 2022, I've been Co-Founder and Backend/AI Lead at [AfroDigital Innovation Labs](https://afrodigital.dev/), one of Ethiopia's most prominent digital agencies. I oversee AI engineering across our client portfolio, from LLM-driven features to autonomous agents, and build the scalable backend infrastructure that takes them into production for businesses and institutions.\n\nOutside AfroDigital, I build and launch my own products. I founded [Parsim](https://parsim-landing.vercel.app), a drop-in proxy that manages context for long-running AI agents, and [Agentum](https://agentum.afrodigital.dev/), an enterprise AI customer-support platform, along with several other independent products.\n\nI'm also a professional QA engineer with a strong background in software testing, so I care as much about how systems fail as how they work. Selected for my academic performance, I work as a lab teaching assistant at BITS College, the same college where I'm studying, teaching Data Structures and Algorithms and Python to junior students.\n\nCurrently the top-ranked GitHub contributor in Ethiopia, working from Addis Ababa with teams worldwide. Have an ambitious idea that needs solid engineering behind it? Let's talk.",
   avatarUrl: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/photo_2026-10-19_13-57-53.jpg",
   resumeUrl: "/Mohammed_Salih_Resume.pdf",
   languages: [
@@ -90,12 +90,12 @@ export const DATA = {
       href: "https://afrodigital.dev/",
       badges: [],
       location: "Addis Ababa, Ethiopia",
-      title: "Backend & AI Lead",
+      title: "Co-Founder & Backend/AI Lead",
       logoUrl: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/afro.png",
       start: "2022",
       end: "Present",
       description:
-        "Lead backend and AI engineering at a software development PLC delivering web, AI, cloud, and security solutions for client organizations. Drive AI integration across client projects, from designing LLM-powered features and autonomous agents to shipping them into production, and guide a team of developers building AI-powered products.",
+        "Co-founded and lead engineering at a software development PLC delivering web, AI, cloud, and security solutions for client organizations. Drive AI integration across client projects, from designing LLM-powered features and autonomous agents to shipping them into production, and guide a team of developers building AI-powered products.",
     },
   ],
   education: [
