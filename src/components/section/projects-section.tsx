@@ -24,10 +24,10 @@ export default function ProjectsSection() {
                         />
                     </div>
                     <div className="flex flex-col gap-y-3 items-center justify-center">
-                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Built, shipped, and in use</h2>
+                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">A Glimpse of My Work</h2>
                         <p className="text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed xl:text-lg/relaxed text-balance text-center">
-                            From autonomous AI agents to full-scale platforms, these are
-                            products I&apos;ve architected from the ground up and put in front of real users.
+                            Much of my production work is private and protected by NDAs.
+                            Here&apos;s a selection of projects I&apos;m able to share publicly.
                         </p>
                     </div>
                 </div>
