@@ -93,7 +93,7 @@ export const DATA = {
       start: "2022",
       end: "Present",
       description:
-        "Lead technology and engineering at a software development PLC delivering web, AI, cloud, and security solutions for client organizations. Drive AI integration across client projects, from designing LLM-powered features and autonomous agents to shipping them into production, and guide a team of developers building AI-powered products.",
+        "Lead the company's technology and engineering, overseeing AI and backend development across client projects and guiding a team of developers from design to production.",
     },
   ],
   education: [
