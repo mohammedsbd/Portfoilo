@@ -173,7 +173,7 @@ export const DATA = {
       image: "https://res.cloudinary.com/dksnuwud/video/upload/v1792310650/agentum.jpg",
     },
     {
-      title: "Amazon Clone",
+      title: "Amazon Storefront",
       href: "https://github.com/mohammedsbd/amazon-frontend-deploy",
       dates: "2024",
       active: true,
