@@ -174,7 +174,7 @@ export const DATA = {
     },
     {
       title: "Amazon Storefront",
-      href: "https://github.com/mohammedsbd/amazon-frontend-deploy",
+      href: "https://amazon-clone-mohammedsalih.netlify.app/",
       dates: "2024",
       active: true,
       description:
@@ -182,16 +182,16 @@ export const DATA = {
       technologies: ["React", "Tailwind CSS"],
       links: [
         {
-          type: "Source",
-          href: "https://github.com/mohammedsbd/amazon-frontend-deploy",
-          icon: <Icons.github className="size-3" />,
+          type: "Website",
+          href: "https://amazon-clone-mohammedsalih.netlify.app/",
+          icon: <Icons.globe className="size-3" />,
         },
       ],
       image: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/amazon_clone.png",
     },
     {
       title: "Evangadi Forum",
-      href: "https://github.com/mohammedsbd/evangadi-frorum-frontend",
+      href: "https://evangadi-forummame.netlify.app",
       dates: "2024",
       active: true,
       description:
@@ -199,16 +199,16 @@ export const DATA = {
       technologies: ["React", "Laravel", "REST API"],
       links: [
         {
-          type: "Source",
-          href: "https://github.com/mohammedsbd/evangadi-frorum-frontend",
-          icon: <Icons.github className="size-3" />,
+          type: "Website",
+          href: "https://evangadi-forummame.netlify.app",
+          icon: <Icons.globe className="size-3" />,
         },
       ],
       image: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/forum.png",
     },
     {
       title: "Raha Tours",
-      href: "https://github.com/mohammedsbd/Raha-Tours",
+      href: "https://raha-tourss.vercel.app/",
       dates: "",
       active: true,
       description:
@@ -216,9 +216,9 @@ export const DATA = {
       technologies: ["React 19", "Tailwind CSS"],
       links: [
         {
-          type: "Source",
-          href: "https://github.com/mohammedsbd/Raha-Tours",
-          icon: <Icons.github className="size-3" />,
+          type: "Website",
+          href: "https://raha-tourss.vercel.app/",
+          icon: <Icons.globe className="size-3" />,
         },
       ],
       image: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/raha.png",
