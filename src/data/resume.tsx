@@ -204,7 +204,7 @@ export const DATA = {
           icon: <Icons.github className="size-3" />,
         },
       ],
-      image: "https://res.cloudinary.com/dksnuwud/video/upload/v1792311129/evangadi.jpg",
+      image: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/forum.png",
     },
     {
       title: "Raha Tours",
