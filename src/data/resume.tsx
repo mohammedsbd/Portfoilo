@@ -195,7 +195,7 @@ export const DATA = {
       dates: "",
       active: true,
       description:
-        "A Q&A community platform for Evangadi Tech where users post questions, answer each other, and interact in a structured way. Built end to end, from the backend API to the user interface.",
+        "A Q&A community platform for Evangadi Tech where users post questions, answer each other, and interact in a structured way.",
       technologies: ["Education", "Community", "Forum"],
       links: [
         {
