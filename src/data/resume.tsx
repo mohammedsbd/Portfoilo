@@ -227,7 +227,7 @@ export const DATA = {
       dates: "",
       active: true,
       description:
-        "An AI-powered organ donor matching startup using real population genetics data for multi-organ compatibility analysis. Pitched at Lead Business 2025 and to investors at the Africa Youth Forum.",
+        "An AI-powered organ donor matching startup that performs multi-organ compatibility analysis. Pitched at Lead Business 2025 and to investors at the Africa Youth Forum.",
       technologies: ["AI", "Healthcare", "Startup"],
       links: [
         {
