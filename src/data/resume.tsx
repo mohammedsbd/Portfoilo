@@ -129,7 +129,7 @@ export const DATA = {
       technologies: ["AI", "Education", "School Management"],
       links: [
         {
-          type: "Website",
+          type: "Site",
           href: "https://www.yeneschool.me/",
           icon: <Icons.globe className="size-3" />,
         },
@@ -146,7 +146,7 @@ export const DATA = {
       technologies: ["AI", "Developer Tools"],
       links: [
         {
-          type: "Website",
+          type: "Site",
           href: "https://parsim.app",
           icon: <Icons.globe className="size-3" />,
         },
@@ -163,7 +163,7 @@ export const DATA = {
       technologies: ["AI", "Customer Support", "SaaS"],
       links: [
         {
-          type: "Website",
+          type: "Site",
           href: "https://agentum.afrodigital.dev/",
           icon: <Icons.globe className="size-3" />,
         },
@@ -180,7 +180,7 @@ export const DATA = {
       technologies: ["E-Commerce", "Retail"],
       links: [
         {
-          type: "Website",
+          type: "Site",
           href: "https://amazon-clone-mohammedsalih.netlify.app/",
           icon: <Icons.globe className="size-3" />,
         },
@@ -197,7 +197,7 @@ export const DATA = {
       technologies: ["Education", "Community", "Forum"],
       links: [
         {
-          type: "Website",
+          type: "Site",
           href: "https://evangadi-forummame.netlify.app",
           icon: <Icons.globe className="size-3" />,
         },
@@ -214,7 +214,7 @@ export const DATA = {
       technologies: ["Tourism", "Travel", "Booking"],
       links: [
         {
-          type: "Website",
+          type: "Site",
           href: "https://raha-tourss.vercel.app/",
           icon: <Icons.globe className="size-3" />,
         },
@@ -231,7 +231,7 @@ export const DATA = {
       technologies: ["AI", "Healthcare", "Startup"],
       links: [
         {
-          type: "Website",
+          type: "Site",
           href: "https://bio-match-tau.vercel.app/",
           icon: <Icons.globe className="size-3" />,
         },
