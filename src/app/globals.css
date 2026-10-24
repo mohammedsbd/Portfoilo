@@ -247,10 +247,13 @@
 }
 /* Pixel-dithered blue cloud across the top of the page, matching the project cards; it fades out before the About section */
 .hero-pixels {
-  opacity: 0.3;
+  /* Flip the dark-tuned shades so the cloud reads as blue on white */
+  filter: invert(1) hue-rotate(180deg) saturate(1.4);
+  opacity: 0.9;
   mask-image: radial-gradient(ellipse 65% 85% at 50% 0%, black 10%, transparent 80%);
   -webkit-mask-image: radial-gradient(ellipse 65% 85% at 50% 0%, black 10%, transparent 80%);
 }
 .dark .hero-pixels {
+  filter: none;
   opacity: 0.7;
 }
