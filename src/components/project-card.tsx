@@ -6,21 +6,13 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Markdown from "react-markdown";
 
-function ProjectGlow({ title }: { title: string }) {
-  // Offset the animation per card so the glows don't move in sync
-  const hash = [...title].reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
-  const delay = `-${hash % 20}s`;
-
+function ProjectGlow() {
   return (
     <div
       aria-hidden
       className="project-glow relative h-48 w-full overflow-hidden border-b border-border"
-      style={{ "--glow-delay": delay } as React.CSSProperties}
     >
-      <span className="glow-orb glow-orb-1" />
-      <span className="glow-orb glow-orb-2" />
-      <span className="glow-orb glow-orb-3" />
-      <span className="glow-beam" />
+      <span className="project-glow-light" />
     </div>
   );
 }
@@ -53,7 +45,7 @@ export function ProjectCard({
   return (
     <div
       className={cn(
-        "flex flex-col h-full border border-border rounded-xl overflow-hidden hover:ring-2 cursor-pointer hover:ring-muted transition-all duration-200",
+        "group flex flex-col h-full border border-border rounded-xl overflow-hidden hover:ring-2 cursor-pointer hover:ring-muted transition-all duration-200",
         className
       )}
     >
@@ -64,7 +56,7 @@ export function ProjectCard({
           rel="noopener noreferrer"
           className="block"
         >
-          <ProjectGlow title={title} />
+          <ProjectGlow />
         </Link>
         {links && links.length > 0 && (
           <div className="absolute top-2 right-2 flex flex-wrap gap-2">
