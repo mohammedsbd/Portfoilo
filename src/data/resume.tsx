@@ -171,6 +171,23 @@ export const DATA = {
       image: "https://res.cloudinary.com/dksnuwud/video/upload/v1792310650/agentum.jpg",
     },
     {
+      title: "Tibeb",
+      href: "https://meds.tibeb.et/et/en",
+      dates: "",
+      active: true,
+      description:
+        "Ethiopia's digital pharmacy platform. Customers order genuine medicines from licensed partner pharmacies with doorstep delivery across Addis Ababa, while pharmacies run their own storefronts, inventory, and payouts through a vendor portal.",
+      technologies: ["Healthcare", "E-Commerce", "Marketplace"],
+      links: [
+        {
+          type: "Site",
+          href: "https://meds.tibeb.et/et/en",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/tibeb.png",
+    },
+    {
       title: "Amazon Storefront",
       href: "https://amazon-clone-mohammedsalih.netlify.app/",
       dates: "",
