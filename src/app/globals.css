@@ -247,10 +247,10 @@
 }
 /* Pixel-dithered blue cloud across the top of the page, matching the project cards; it fades out before the About section */
 .hero-pixels {
-  opacity: 0.35;
-  mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+  opacity: 0.3;
+  mask-image: radial-gradient(ellipse 65% 85% at 50% 0%, black 10%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 85% at 50% 0%, black 10%, transparent 80%);
 }
 .dark .hero-pixels {
-  opacity: 0.85;
+  opacity: 0.7;
 }
