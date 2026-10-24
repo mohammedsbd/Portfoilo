@@ -6,7 +6,6 @@ import { useEffect, useRef } from "react";
 // Shades of one blue, darkest to brightest
 const PALETTE = ["#06102e", "#0a1f5c", "#123a9c", "#1d4ed8", "#3b82f6", "#7db4fb"];
 const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map((v) => v / 16 - 0.5);
-const CELL = 4;
 const FPS = 15;
 
 function hash(x: number, y: number, seed: number) {
@@ -38,7 +37,18 @@ function cloud(x: number, y: number, t: number, seed: number) {
   );
 }
 
-export function DitherGlow({ seed = 0, className }: { seed?: number; className?: string }) {
+export function DitherGlow({
+  seed = 0,
+  cell = 4,
+  transparent = false,
+  className,
+}: {
+  seed?: number;
+  cell?: number;
+  // Draw only the lit pixels, letting the page background show through
+  transparent?: boolean;
+  className?: string;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -60,20 +70,24 @@ export function DitherGlow({ seed = 0, className }: { seed?: number; className?:
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cols = Math.ceil(width / CELL);
-      rows = Math.ceil(height / CELL);
+      cols = Math.ceil(width / cell);
+      rows = Math.ceil(height / cell);
     };
 
     const draw = (t: number) => {
-      ctx.fillStyle = PALETTE[0];
-      ctx.fillRect(0, 0, cols * CELL, rows * CELL);
+      if (transparent) {
+        ctx.clearRect(0, 0, cols * cell, rows * cell);
+      } else {
+        ctx.fillStyle = PALETTE[0];
+        ctx.fillRect(0, 0, cols * cell, rows * cell);
+      }
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
           const n = cloud(x, y, t, seed) + BAYER[(y % 4) * 4 + (x % 4)] * 0.12;
           const level = Math.max(0, Math.min(PALETTE.length - 1, Math.floor(n * 1.6 * PALETTE.length - 2.2)));
-          if (level === 0) continue;
+          if (level === 0 && !transparent) continue;
           ctx.fillStyle = PALETTE[level];
-          ctx.fillRect(x * CELL, y * CELL, CELL - 1, CELL - 1);
+          ctx.fillRect(x * cell, y * cell, cell - 1, cell - 1);
         }
       }
     };
@@ -108,7 +122,7 @@ export function DitherGlow({ seed = 0, className }: { seed?: number; className?:
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
     };
-  }, [seed]);
+  }, [seed, cell, transparent]);
 
   return <canvas ref={canvasRef} aria-hidden className={cn("block", className)} />;
 }

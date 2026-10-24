@@ -245,39 +245,12 @@
   }
 
 }
-/* Soft blue aurora at the top of the page: layered washes over a faint grid that fades out */
-.hero-glow {
-  --hero-wash: 0.16;
-  --hero-tint: 0.1;
-  --hero-grid: 0.08;
-  background:
-    radial-gradient(ellipse 55% 65% at 50% -15%, rgb(var(--brand-rgb) / var(--hero-wash)), transparent 70%),
-    radial-gradient(ellipse 30% 45% at 28% -10%, rgb(56 189 248 / var(--hero-tint)), transparent 70%),
-    radial-gradient(ellipse 30% 45% at 72% -10%, rgb(99 102 241 / var(--hero-tint)), transparent 70%);
+/* Pixel-dithered blue cloud at the top of the page, matching the project cards, fading out toward the content */
+.hero-pixels {
+  opacity: 0.3;
+  mask-image: radial-gradient(ellipse 65% 85% at 50% 0%, black 10%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 85% at 50% 0%, black 10%, transparent 80%);
 }
-.hero-glow::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 30%;
-  right: 30%;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgb(var(--brand-rgb) / 0.6), transparent);
-}
-.hero-glow::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgb(var(--brand-rgb) / var(--hero-grid)) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(var(--brand-rgb) / var(--hero-grid)) 1px, transparent 1px);
-  background-size: 48px 48px;
-  background-position: center top;
-  mask-image: radial-gradient(ellipse 50% 70% at 50% 0%, black, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 50% 70% at 50% 0%, black, transparent 75%);
-}
-.dark .hero-glow {
-  --hero-wash: 0.24;
-  --hero-tint: 0.12;
-  --hero-grid: 0.13;
+.dark .hero-pixels {
+  opacity: 0.7;
 }
