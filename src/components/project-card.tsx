@@ -5,17 +5,7 @@ import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Markdown from "react-markdown";
-
-function ProjectGlow({ className }: { className?: string }) {
-  return (
-    <div
-      aria-hidden
-      className={cn("project-glow relative overflow-hidden", className)}
-    >
-      <span className="project-glow-light" />
-    </div>
-  );
-}
+import { DitherGlow } from "@/components/dither-glow";
 
 interface Props {
   title: string;
@@ -49,7 +39,10 @@ export function ProjectCard({
         className
       )}
     >
-      <ProjectGlow className="h-24 w-full shrink-0 border-b border-border sm:h-auto sm:w-44 sm:border-b-0 sm:border-r" />
+      <DitherGlow
+        seed={[...title].reduce((sum, ch) => sum + ch.charCodeAt(0), 0)}
+        className="h-36 w-full shrink-0 border-b border-border sm:h-auto sm:w-52 sm:border-b-0 sm:border-r"
+      />
       <div className="p-5 flex flex-col gap-2 flex-1 min-w-0">
         <div className="flex items-start justify-between gap-3">
           <div className="flex flex-col gap-1">
