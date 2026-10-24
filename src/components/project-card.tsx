@@ -6,20 +6,21 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Markdown from "react-markdown";
 
-const GLOW_POSITIONS = ["50%", "30%", "70%"];
-
 function ProjectGlow({ title }: { title: string }) {
+  // Offset the animation per card so the glows don't move in sync
   const hash = [...title].reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
-  const x = GLOW_POSITIONS[hash % GLOW_POSITIONS.length];
+  const delay = `-${hash % 20}s`;
 
   return (
     <div
-      className="project-glow relative flex h-48 w-full items-center justify-center overflow-hidden border-b border-border"
-      style={{ "--glow-x": x } as React.CSSProperties}
+      aria-hidden
+      className="project-glow relative h-48 w-full overflow-hidden border-b border-border"
+      style={{ "--glow-delay": delay } as React.CSSProperties}
     >
-      <span className="relative z-10 flex size-14 items-center justify-center rounded-2xl border border-brand/20 bg-background/60 text-xl font-semibold text-brand shadow-[0_0_40px_-8px_rgb(var(--brand-rgb)/0.6)] backdrop-blur-sm">
-        {title.charAt(0)}
-      </span>
+      <span className="glow-orb glow-orb-1" />
+      <span className="glow-orb glow-orb-2" />
+      <span className="glow-orb glow-orb-3" />
+      <span className="glow-beam" />
     </div>
   );
 }
