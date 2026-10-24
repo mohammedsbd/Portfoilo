@@ -1,27 +1,26 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 import Markdown from "react-markdown";
 
-function ProjectImage({ src, alt }: { src: string; alt: string }) {
-  const [imageError, setImageError] = useState(false);
+const GLOW_POSITIONS = ["50%", "30%", "70%"];
 
-  if (!src || imageError) {
-    return <div className="w-full h-48 bg-muted" />;
-  }
+function ProjectGlow({ title }: { title: string }) {
+  const hash = [...title].reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+  const x = GLOW_POSITIONS[hash % GLOW_POSITIONS.length];
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      className="w-full h-48 object-cover"
-      onError={() => setImageError(true)}
-    />
+    <div
+      className="project-glow relative flex h-48 w-full items-center justify-center overflow-hidden border-b border-border"
+      style={{ "--glow-x": x } as React.CSSProperties}
+    >
+      <span className="relative z-10 flex size-14 items-center justify-center rounded-2xl border border-brand/20 bg-background/60 text-xl font-semibold text-brand shadow-[0_0_40px_-8px_rgb(var(--brand-rgb)/0.6)] backdrop-blur-sm">
+        {title.charAt(0)}
+      </span>
+    </div>
   );
 }
 
@@ -47,8 +46,6 @@ export function ProjectCard({
   description,
   dates,
   tags,
-  link,
-  image,
   links,
   className,
 }: Props) {
@@ -66,7 +63,7 @@ export function ProjectCard({
           rel="noopener noreferrer"
           className="block"
         >
-          <ProjectImage src={image ?? ""} alt={title} />
+          <ProjectGlow title={title} />
         </Link>
         {links && links.length > 0 && (
           <div className="absolute top-2 right-2 flex flex-wrap gap-2">

@@ -281,3 +281,41 @@
   --hero-tint: 0.12;
   --hero-grid: 0.13;
 }
+
+/* Blue glow header on project cards, matching the hero aurora */
+.project-glow {
+  --glow-wash: 0.14;
+  --glow-tint: 0.1;
+  --glow-grid: 0.07;
+  background:
+    radial-gradient(ellipse 70% 90% at var(--glow-x, 50%) 0%, rgb(var(--brand-rgb) / var(--glow-wash)), transparent 70%),
+    radial-gradient(ellipse 45% 70% at 20% 100%, rgb(56 189 248 / var(--glow-tint)), transparent 70%),
+    radial-gradient(ellipse 45% 70% at 80% 100%, rgb(99 102 241 / var(--glow-tint)), transparent 70%),
+    var(--background);
+}
+.project-glow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 25%;
+  right: 25%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgb(var(--brand-rgb) / 0.6), transparent);
+}
+.project-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgb(var(--brand-rgb) / var(--glow-grid)) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--brand-rgb) / var(--glow-grid)) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center;
+  mask-image: radial-gradient(ellipse 60% 70% at 50% 50%, black, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 50%, black, transparent 80%);
+}
+.dark .project-glow {
+  --glow-wash: 0.32;
+  --glow-tint: 0.14;
+  --glow-grid: 0.1;
+}
