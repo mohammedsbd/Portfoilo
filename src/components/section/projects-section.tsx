@@ -1,7 +1,6 @@
 import BlurFade from "@/components/magicui/blur-fade";
 import { ProjectCard } from "@/components/project-card";
 import { DATA } from "@/data/resume";
-import { cn } from "@/lib/utils";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -31,17 +30,11 @@ export default function ProjectsSection() {
                         </p>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto auto-rows-fr">
+                <div className="flex flex-col gap-3 max-w-[800px] mx-auto">
                     {DATA.projects.map((project, id) => (
                         <BlurFade
                             key={project.title}
                             delay={BLUR_FADE_DELAY * 12 + id * 0.05}
-                            className={cn(
-                                "h-full",
-                                DATA.projects.length % 2 === 1 &&
-                                    id === DATA.projects.length - 1 &&
-                                    "sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.375rem)]"
-                            )}
                         >
                             <ProjectCard
                                 href={project.href}

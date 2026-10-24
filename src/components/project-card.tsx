@@ -6,11 +6,11 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Markdown from "react-markdown";
 
-function ProjectGlow() {
+function ProjectGlow({ className }: { className?: string }) {
   return (
     <div
       aria-hidden
-      className="project-glow relative h-48 w-full overflow-hidden border-b border-border"
+      className={cn("project-glow relative overflow-hidden", className)}
     >
       <span className="project-glow-light" />
     </div>
@@ -45,31 +45,36 @@ export function ProjectCard({
   return (
     <div
       className={cn(
-        "group flex flex-col h-full border border-border rounded-xl overflow-hidden hover:ring-2 cursor-pointer hover:ring-muted transition-all duration-200",
+        "group relative flex flex-col sm:flex-row border border-border rounded-xl overflow-hidden hover:ring-2 hover:ring-muted transition-all duration-200",
         className
       )}
     >
-      <div className="relative shrink-0">
-        <Link
-          href={href || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block"
-        >
-          <ProjectGlow />
-        </Link>
-        {links && links.length > 0 && (
-          <div className="absolute top-2 right-2 flex flex-wrap gap-2">
-            {links.map((link, idx) => (
+      <ProjectGlow className="h-24 w-full shrink-0 border-b border-border sm:h-auto sm:w-44 sm:border-b-0 sm:border-r" />
+      <div className="p-5 flex flex-col gap-2 flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex flex-col gap-1">
+            <h3 className="font-semibold">
+              <Link
+                href={href || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="after:absolute after:inset-0 focus-visible:outline-none"
+              >
+                {title}
+              </Link>
+            </h3>
+            {dates && <time className="text-xs text-muted-foreground">{dates}</time>}
+          </div>
+          <div className="relative z-10 flex shrink-0 items-center gap-2">
+            {links?.map((link, idx) => (
               <Link
                 href={link.href}
                 key={idx}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
               >
                 <Badge
-                  className="flex items-center gap-1.5 text-xs bg-black text-white hover:bg-black/90"
+                  className="flex items-center gap-1.5 text-xs bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90"
                   variant="default"
                 >
                   {link.icon}
@@ -77,30 +82,17 @@ export function ProjectCard({
                 </Badge>
               </Link>
             ))}
+            <ArrowUpRight
+              className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
+              aria-hidden
+            />
           </div>
-        )}
-      </div>
-      <div className="p-6 flex flex-col gap-3 flex-1">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex flex-col gap-1">
-            <h3 className="font-semibold">{title}</h3>
-            {dates && <time className="text-xs text-muted-foreground">{dates}</time>}
-          </div>
-          <Link
-            href={href || "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
-            aria-label={`Open ${title}`}
-          >
-            <ArrowUpRight className="h-4 w-4" aria-hidden />
-          </Link>
         </div>
-        <div className="text-xs flex-1 prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
+        <div className="text-xs prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
           <Markdown>{description}</Markdown>
         </div>
         {tags && tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-auto">
+          <div className="flex flex-wrap gap-1 mt-1">
             {tags.map((tag) => (
               <Badge
                 key={tag}
