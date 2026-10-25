@@ -113,7 +113,7 @@ export const DATA = {
       degree: "Full Stack Web Development Certification",
       logoUrl: "https://res.cloudinary.com/dksnuwud/image/upload/f_auto/q_auto/eva.png",
       start: "2023",
-      end: "2024",
+      end: "December 2024",
       description:
         "Although much of my skill set is self-taught, I completed this intensive 7-month full-stack program to formally validate it. Along the way, I built and shipped real full-stack products from start to finish, strengthening the engineering fundamentals I rely on today.",
     },
