@@ -118,7 +118,7 @@ export default function Page() {
                   </div>
                   <div className="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none">
                     <span>
-                      {education.start} - {education.end}
+                      {[education.start, education.end].filter(Boolean).join(" - ")}
                     </span>
                   </div>
                 </Link>
